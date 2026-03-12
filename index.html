@@ -212,21 +212,22 @@
     <div class="stat-box"><div class="stat-num">~90</div><div class="stat-label">Viable passes/year</div></div>
     <div class="stat-box"><div class="stat-num">~225</div><div class="stat-label">Total passes (2023-2026)</div></div>
     <div class="stat-box"><div class="stat-num">3</div><div class="stat-label">Research directions</div></div>
-    <div class="stat-box"><div class="stat-num">5</div><div class="stat-label">Task phases</div></div>
+    <div class="stat-box"><div class="stat-num">244</div><div class="stat-label">Pass-buoy matches</div></div>
+    <div class="stat-box"><div class="stat-num">15</div><div class="stat-label">Buoys matched</div></div>
   </div>
 
   <!-- Phase 1 -->
   <div class="phase-header" onclick="togglePhase(1)">
     <span class="phase-num">P1</span>
     <span class="phase-title">Data Access & Inventory</span>
-    <span class="phase-status tag" style="background:#f59e0b33;color:var(--amber)">WEEK 1</span>
+    <span class="phase-status tag" style="background:#22c55e33;color:var(--green)">DONE</span>
   </div>
   <div class="phase-body" id="phase-1">
     <ul class="task-list">
       <li><input type="checkbox" onchange="saveCheck(this)"><span>Create NASA Earthdata login (earthdata.nasa.gov)</span><span class="assignee assignee-ian">Ian</span></li>
       <li><input type="checkbox" onchange="saveCheck(this)"><span>Install <code>earthaccess</code> Python library</span><span class="assignee assignee-ian">Ian</span></li>
       <li><input type="checkbox" onchange="saveCheck(this)"><span>Install <code>podaac-data-downloader</code> as backup</span><span class="assignee assignee-ian">Ian</span></li>
-      <li><input type="checkbox" onchange="saveCheck(this)"><span>Identify target product: <strong>L2_HR_LakeSP</strong> (SWH pre-computed for inland water bodies) + <strong>L2_HR_Raster</strong> (250m gridded, has sigma-naught)</span><span class="assignee assignee-ian">Ian</span></li>
+      <li><input type="checkbox" onchange="saveCheck(this)"><span>Identify target product: <strong>L2_LR_SSH_Expert (PID0)</strong> used for SWH + sigma-naught <em>(updated from L2_HR_LakeSP)</em></span><span class="assignee assignee-ian">Ian</span></li>
       <li><input type="checkbox" onchange="saveCheck(this)"><span><strong>Deliverable:</strong> 1-page summary table of product variables, resolution, and what each means</span><span class="assignee assignee-ian">Ian</span></li>
       <li><input type="checkbox" onchange="saveCheck(this)"><span>Query all SWOT passes intersecting GL bounding box (41N-49N, 92W-76W)</span><span class="assignee assignee-ian">Ian</span></li>
       <li><input type="checkbox" onchange="saveCheck(this)"><span>For each pass: record date, time, orbit number, which lake(s), ascending/descending</span><span class="assignee assignee-ian">Ian</span></li>
@@ -239,7 +240,7 @@
   <div class="phase-header" onclick="togglePhase(2)">
     <span class="phase-num">P2</span>
     <span class="phase-title">Download & Quality Filter</span>
-    <span class="phase-status tag" style="background:#3b82f633;color:var(--blue)">WEEK 2</span>
+    <span class="phase-status tag" style="background:#22c55e33;color:var(--green)">DONE</span>
   </div>
   <div class="phase-body hidden" id="phase-2">
     <ul class="task-list">
@@ -258,19 +259,19 @@
   <div class="phase-header" onclick="togglePhase(3)">
     <span class="phase-num">P3</span>
     <span class="phase-title">Co-location with Model & Buoys</span>
-    <span class="phase-status tag" style="background:#3b82f633;color:var(--blue)">WEEK 3-4</span>
+    <span class="phase-status tag" style="background:#f59e0b33;color:var(--amber)">IN PROGRESS</span>
   </div>
   <div class="phase-body hidden" id="phase-3">
     <ul class="task-list">
-      <li><input type="checkbox" onchange="saveCheck(this)"><span>For each pass, find closest SWOT pixel to each buoy (45002, 45003, 45004, 45007, 45008, 45212, 45213, 45214)</span><span class="assignee assignee-ian">Ian</span></li>
-      <li><input type="checkbox" onchange="saveCheck(this)"><span>Pull buoy SWH within +/-30 min of overpass time</span><span class="assignee assignee-ian">Ian</span></li>
-      <li><input type="checkbox" onchange="saveCheck(this)"><span><strong>Deliverable:</strong> Matched CSV: date, lake, buoy_id, buoy_swh, swot_swh, distance_km, time_diff_min</span><span class="assignee assignee-ian">Ian</span></li>
+      <li><input type="checkbox" onchange="saveCheck(this)"><span>✅ For each pass, find closest SWOT pixel to each buoy — <strong>DONE: 15 buoys, 244 matches, 3 strategies (ALL/AVG/CLOSEST)</strong></span><span class="assignee assignee-ian">Ian</span></li>
+      <li><input type="checkbox" onchange="saveCheck(this)"><span>✅ Pull buoy SWH within overpass window — <strong>DONE + added buoy wind speed/direction/components</strong></span><span class="assignee assignee-ian">Ian</span></li>
+      <li><input type="checkbox" onchange="saveCheck(this)"><span>✅ <strong>Deliverable:</strong> 3 matched CSVs delivered: SWOT_PID0_BUOY_MATCHES_ALL (1162 rows), _AVERAGE (244), _CLOSEST (244). Includes swh_karin, swh_karin_corrected (beta), sig0_karin, buoy wind</span><span class="assignee assignee-ian">Ian</span></li>
       <li><input type="checkbox" onchange="saveCheck(this)"><span>Kate provides WW3 model output (3-hourly) for co-location</span><span class="assignee assignee-kate">Kate</span></li>
       <li><input type="checkbox" onchange="saveCheck(this)"><span>Regrid SWOT onto WW3 GLWU unstructured grid (nearest-neighbor)</span><span class="assignee assignee-both">Both</span></li>
       <li><input type="checkbox" onchange="saveCheck(this)"><span>Compute spatial difference maps: WW3_Hs - SWOT_SWH per pass</span><span class="assignee assignee-both">Both</span></li>
       <li><input type="checkbox" onchange="saveCheck(this)"><span><strong>Deliverable:</strong> NetCDFs of matched SWOT-WW3 fields + difference maps</span><span class="assignee assignee-both">Both</span></li>
-      <li><input type="checkbox" onchange="saveCheck(this)"><span>Pull co-located HRRR winds (U10, V10) for each pass time</span><span class="assignee assignee-kate">Kate</span></li>
-      <li><input type="checkbox" onchange="saveCheck(this)"><span><strong>Deliverable:</strong> HRRR wind snapshots saved alongside SWH data</span><span class="assignee assignee-kate">Kate</span></li>
+      <li><input type="checkbox" onchange="saveCheck(this)"><span>✅ HRRR download script written (download_hrrr_for_swot.py) — <strong>DONE: extracts UGRD, VGRD, WIND, GUST, FRICV, TMP, SST for each overpass</strong></span><span class="assignee assignee-kate">Kate</span></li>
+      <li><input type="checkbox" onchange="saveCheck(this)"><span>Run HRRR download script → save to /Volumes/Extreme SSD/SWOT/HRRR/</span><span class="assignee assignee-kate">Kate</span></li>
     </ul>
   </div>
 
@@ -366,9 +367,19 @@
       <div style="font-size:14px;">SWOT doesn't need to be central to Chapter 1. Dissertation focus may shift from being purely "winter waves." SWOT is its own project track. Version D data (with beta correction for antenna heating) identified as the target version.</div>
     </div>
 
+    <div class="finding" style="border-color: var(--green);">
+      <div class="finding-label" style="color: var(--green);">COMPLETED — Feb 2026</div>
+      <div style="font-size:14px;"><strong>Ian: PID0 buoy co-location COMPLETE.</strong> Reran all SWOT/Buoy correlations on L2_LR_SSH_Expert PID0 data. 244 pass-buoy matches across 15 buoy stations (45001-45008, 45012, 45194, 45211-45215). Date range: May 6 – Nov 19, 2025. Three match files produced: ALL (1162 rows, every pixel), AVERAGE (244, mean per pass-buoy), CLOSEST (244, nearest pixel). New attributes added: buoy wind speed (wspd), direction (wd), components (wspu, wspv), and <strong>swh_karin_corrected</strong> (beta-corrected SWH).</div>
+    </div>
+
+    <div class="finding" style="border-color: var(--green);">
+      <div class="finding-label" style="color: var(--green);">COMPLETED — Mar 2026</div>
+      <div style="font-size:14px;"><strong>Kate: HRRR download script written</strong> (download_hrrr_for_swot.py). Extracts 10-m wind (UGRD, VGRD, WIND), gust, friction velocity, 2-m temperature, and SST from HRRR f00 analysis for each SWOT overpass hour. Subsets to Great Lakes bounding box, saves compressed NetCDFs to external SSD. Creates swot_to_hrrr_mapping.csv linking SWOT times to HRRR files.</div>
+    </div>
+
     <div class="finding" style="border-color: var(--amber);">
-      <div class="finding-label" style="color: var(--amber);">PENDING — Jan 2026</div>
-      <div style="font-size:14px;">Task created: Download SWOT Version D Windwave data (SWOT_L2_LR_SSH_Windwave_D) from May 2025 onward for GL bounding box. Status: Next Action. High priority.</div>
+      <div class="finding-label" style="color: var(--amber);">NEXT — Mar 2026</div>
+      <div style="font-size:14px;">Ian: QC matched data (check outliers, rain/ice flags). Create scatter plots of SWOT vs buoy SWH (with and without beta correction). Kate: Run HRRR download script, provide WW3 model output for co-location. Begin Phase 4 analysis.</div>
     </div>
 
     <div class="finding" style="border-color: var(--amber);">
