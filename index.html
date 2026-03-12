@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SWOT Great Lakes Project — Kate & Ian</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #0f172a;
+    --surface: #1e293b;
+    --border: #334155;
+    --text: #e2e8f0;
+    --dim: #94a3b8;
+    --muted: #64748b;
+    --bright: #f8fafc;
+    --blue: #3b82f6;
+    --green: #22c55e;
+    --amber: #f59e0b;
+    --red: #ef4444;
+    --purple: #8b5cf6;
+    --cyan: #06b6d4;
+  }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: 'Inter', -apple-system, sans-serif;
+    line-height: 1.6; padding: 32px; max-width: 960px; margin: 0 auto;
+  }
+  header { margin-bottom: 32px; }
+  h1 { font-size: 24px; font-weight: 800; color: var(--bright); }
+  .subtitle { font-size: 14px; color: var(--muted); margin-top: 4px; }
+  .tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; }
+
+  nav { display: flex; gap: 4px; margin-bottom: 24px; border-bottom: 1px solid var(--border); padding-bottom: 12px; }
+  nav button {
+    background: transparent; color: var(--muted); border: none; border-radius: 6px;
+    padding: 8px 16px; font-size: 13px; font-weight: 600; cursor: pointer;
+    font-family: inherit; transition: all 0.15s;
+  }
+  nav button:hover { color: var(--text); background: var(--surface); }
+  nav button.active { color: var(--bright); background: var(--surface); }
+
+  .card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+    padding: 20px; margin-bottom: 12px;
+  }
+  .card-title { font-size: 16px; font-weight: 700; color: var(--bright); margin-bottom: 8px; }
+  .card-subtitle { font-size: 13px; color: var(--muted); margin-bottom: 12px; }
+
+  .task-list { list-style: none; }
+  .task-list li {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 8px 0; border-bottom: 1px solid #1e293b; font-size: 14px;
+  }
+  .task-list li:last-child { border-bottom: none; }
+  .task-list input[type="checkbox"] { accent-color: var(--blue); width: 16px; height: 16px; margin-top: 3px; cursor: pointer; flex-shrink: 0; }
+  .task-list .checked { text-decoration: line-through; color: var(--muted); }
+  .assignee {
+    font-size: 11px; font-weight: 600; padding: 1px 6px; border-radius: 3px;
+    flex-shrink: 0; margin-top: 2px;
+  }
+  .assignee-ian { background: #3b82f633; color: var(--blue); }
+  .assignee-kate { background: #f59e0b33; color: var(--amber); }
+  .assignee-both { background: #8b5cf633; color: var(--purple); }
+
+  .phase-header {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 12px 16px; background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; margin-bottom: 8px; cursor: pointer;
+  }
+  .phase-header:hover { border-color: #475569; }
+  .phase-num { font-size: 12px; font-weight: 800; color: var(--blue); min-width: 28px; }
+  .phase-title { font-size: 15px; font-weight: 700; color: var(--bright); flex: 1; }
+  .phase-status { font-size: 12px; font-weight: 600; }
+  .phase-body { padding: 0 16px 16px 16px; margin-bottom: 12px; }
+
+  .meeting-item {
+    padding: 12px 16px; background: var(--surface); border: 1px solid var(--border);
+    border-radius: 8px; margin-bottom: 8px;
+  }
+  .meeting-date { font-size: 12px; font-weight: 700; color: var(--cyan); }
+  .meeting-title { font-size: 14px; font-weight: 600; color: var(--bright); margin: 4px 0; }
+  .meeting-summary { font-size: 13px; color: var(--dim); }
+  .meeting-actions { margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border); }
+  .meeting-actions li { font-size: 13px; color: var(--text); padding: 2px 0; }
+
+  .finding {
+    padding: 12px 16px; border-left: 3px solid var(--blue);
+    background: #3b82f60a; border-radius: 0 8px 8px 0; margin-bottom: 8px;
+  }
+  .finding-label { font-size: 11px; font-weight: 700; color: var(--blue); letter-spacing: 0.05em; margin-bottom: 4px; }
+
+  .direction-card {
+    padding: 16px; background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; margin-bottom: 10px;
+  }
+  .direction-num { font-size: 24px; font-weight: 800; color: var(--blue); opacity: 0.3; float: right; margin-left: 12px; }
+  .direction-title { font-size: 15px; font-weight: 700; color: var(--bright); margin-bottom: 6px; }
+  .direction-desc { font-size: 13px; color: var(--dim); }
+
+  .data-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 8px; }
+  .data-table th { text-align: left; padding: 6px 8px; color: var(--muted); font-weight: 600; font-size: 11px; letter-spacing: 0.05em; border-bottom: 1px solid var(--border); }
+  .data-table td { padding: 6px 8px; border-bottom: 1px solid #1e293b; }
+
+  .stat-row { display: flex; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
+  .stat-box {
+    flex: 1; min-width: 120px; padding: 12px; background: var(--bg);
+    border: 1px solid var(--border); border-radius: 8px; text-align: center;
+  }
+  .stat-num { font-size: 24px; font-weight: 800; color: var(--blue); }
+  .stat-label { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+  .hidden { display: none; }
+  footer { margin-top: 32px; padding-top: 12px; border-top: 1px solid var(--border); font-size: 11px; color: #475569; display: flex; justify-content: space-between; }
+
+  /* Code tab */
+  .drop-zone {
+    border: 2px dashed var(--border); border-radius: 10px; padding: 32px;
+    text-align: center; color: var(--muted); font-size: 14px; cursor: pointer;
+    transition: all 0.2s; margin-bottom: 16px;
+  }
+  .drop-zone:hover, .drop-zone.drag-over { border-color: var(--blue); color: var(--blue); background: #3b82f608; }
+  .drop-zone input[type="file"] { display: none; }
+
+  .code-entry {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+    margin-bottom: 12px; overflow: hidden;
+  }
+  .code-entry-header {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 10px 16px; background: var(--bg); cursor: pointer;
+  }
+  .code-entry-name { font-size: 14px; font-weight: 600; color: var(--cyan); }
+  .code-entry-meta { font-size: 11px; color: var(--muted); }
+  .code-entry-body {
+    padding: 16px; overflow-x: auto; max-height: 500px; overflow-y: auto;
+  }
+  .code-entry-body pre {
+    font-family: 'SF Mono', 'Fira Code', 'JetBrains Mono', monospace;
+    font-size: 12px; line-height: 1.5; color: var(--text); white-space: pre;
+    margin: 0;
+  }
+  .code-entry .delete-btn {
+    background: none; border: none; color: var(--muted); cursor: pointer;
+    font-size: 16px; padding: 4px 8px;
+  }
+  .code-entry .delete-btn:hover { color: var(--red); }
+
+  /* Data tab */
+  .data-entry {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 16px; background: var(--surface); border: 1px solid var(--border);
+    border-radius: 8px; margin-bottom: 8px;
+  }
+  .data-entry-icon {
+    width: 36px; height: 36px; border-radius: 8px; background: #06b6d422;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; flex-shrink: 0;
+  }
+  .data-entry-info { flex: 1; }
+  .data-entry-name { font-size: 14px; font-weight: 600; color: var(--bright); }
+  .data-entry-desc { font-size: 12px; color: var(--muted); }
+  .data-entry-size { font-size: 11px; color: var(--dim); }
+  .data-entry .delete-btn {
+    background: none; border: none; color: var(--muted); cursor: pointer;
+    font-size: 16px; padding: 4px 8px;
+  }
+  .data-entry .delete-btn:hover { color: var(--red); }
+
+  .add-form {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+    padding: 16px; margin-bottom: 16px;
+  }
+  .add-form input, .add-form select, .add-form textarea {
+    width: 100%; padding: 8px 12px; background: var(--bg); border: 1px solid var(--border);
+    border-radius: 6px; color: var(--text); font-family: inherit; font-size: 13px;
+    margin-bottom: 8px;
+  }
+  .add-form input:focus, .add-form select:focus, .add-form textarea:focus { outline: none; border-color: var(--blue); }
+  .add-form textarea { min-height: 60px; resize: vertical; }
+  .add-form label { font-size: 12px; font-weight: 600; color: var(--dim); display: block; margin-bottom: 4px; }
+  .form-row { display: flex; gap: 8px; }
+  .form-row > div { flex: 1; }
+  .btn { background: var(--blue); color: white; border: none; border-radius: 6px; padding: 8px 20px; font-weight: 700; font-family: inherit; font-size: 13px; cursor: pointer; }
+  .btn:hover { opacity: 0.9; }
+  .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--dim); }
+  .btn-outline:hover { border-color: var(--blue); color: var(--blue); }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>SWOT Great Lakes Project</h1>
+  <div class="subtitle">Kate Huelse & Ian — SWOT SWH validation and spatial wave analysis over the Great Lakes</div>
+</header>
+
+<nav id="nav">
+  <button class="active" data-view="tasks">Tasks</button>
+  <button data-view="history">What We've Done</button>
+  <button data-view="meetings">Meeting Notes</button>
+  <button data-view="directions">Research Directions</button>
+  <button data-view="code">Code</button>
+  <button data-view="data">Data</button>
+  <button data-view="reference">Reference</button>
+</nav>
+
+<!-- ==================== TASKS ==================== -->
+<div id="view-tasks">
+
+  <div class="stat-row">
+    <div class="stat-box"><div class="stat-num">~90</div><div class="stat-label">Viable passes/year</div></div>
+    <div class="stat-box"><div class="stat-num">~225</div><div class="stat-label">Total passes (2023-2026)</div></div>
+    <div class="stat-box"><div class="stat-num">3</div><div class="stat-label">Research directions</div></div>
+    <div class="stat-box"><div class="stat-num">5</div><div class="stat-label">Task phases</div></div>
+  </div>
+
+  <!-- Phase 1 -->
+  <div class="phase-header" onclick="togglePhase(1)">
+    <span class="phase-num">P1</span>
+    <span class="phase-title">Data Access & Inventory</span>
+    <span class="phase-status tag" style="background:#f59e0b33;color:var(--amber)">WEEK 1</span>
+  </div>
+  <div class="phase-body" id="phase-1">
+    <ul class="task-list">
+      <li><input type="checkbox" onchange="saveCheck(this)"><span>Create NASA Earthdata login (earthdata.nasa.gov)</span><span class="assignee assignee-ian">Ian</span></li>
+      <li><input type="checkbox" onchange="saveCheck(this)"><span>Install <code>earthaccess</code> Python library</span><span class="assignee assignee-ian">Ian</span></li>
+      <li><input type="checkbox" onchange="saveCheck(this)"><span>Install <code>podaac-data-downloader</code> as backup</span><span class="assignee assignee-ian">Ian</span></li>
+      <li><input type="checkbox" onchange="saveCheck(this)"><span>Identify target product: <strong>L2_HR_LakeSP</strong> (SWH pre-computed for inland water bodies) + <strong>L2_HR_Raster</strong> (250m gridded, has sigma-naught)</span><span class="assignee assignee-ian">Ian</span></li>
+      <li><input type="checkbox" onchange="saveCheck(this)"><span><strong>Deliverable:</strong> 1-page summary table of product variables, resolution, and what each means</span><span class="assignee assignee-ian">Ian</span></li>
+      <li><input type="checkbox" onchange="saveCheck(this)"><span>Query all SWOT passes intersecting GL bounding box (41N-49N, 92W-76W)</span><span class="assignee assignee-ian">Ian</span></li>
+      <li><input type="checkbox" onchange="saveCheck(this)"><span>For each pass: record date, time, orbit number, which lake(s), ascending/descending</span><span class="assignee assignee-ian">Ian</span></li>
+      <li><input type="checkbox" onchange="saveCheck(this)"><span>Flag ice-free vs ice-covered (May-Nov = ice-free, or use NIC ice data)</span><span class="assignee assignee-ian">Ian</span></li>
+      <li><input type="checkbox" onchange="saveCheck(this)"><span><strong>Deliverable:</strong> CSV catalog of every GL pass since SWOT science phase (~Apr 2023)</span><span class="assignee assignee-ian">Ian</span></li>
+    </ul>
+  </div>
+
+  <!-- Phase 2 -->
+  <div class="phase-header" onclick="togglePhase(2)">
+    <span class="phase-num">P2</span>
+    <span class="phase-title">Download & Quality Filter</span>
+    <span class="phase-status tag" style="background:#3b82f633;color:var(--blue)">WEEK 2</span>
+  </div>
+  <div class="phase-body hidden" id="phase-2">
+    <ul class="task-list">
+      <li><input type="checkbox" onchange="saveCheck(this)"><span>Download all ice-free GL passes (L2_HR_LakeSP for SWH)</span><span class="assignee assignee-ian">Ian</span></li>
+      <li><input type="checkbox" onchange="saveCheck(this)"><span>Organize by lake and date: <code>SWOT_data/{lake}/{YYYYMMDD}/</code></span><span class="assignee assignee-ian">Ian</span></li>
+      <li><input type="checkbox" onchange="saveCheck(this)"><span>Read SWOT quality flags — filter out rain, low coherence, edge effects</span><span class="assignee assignee-ian">Ian</span></li>
+      <li><input type="checkbox" onchange="saveCheck(this)"><span>Per pass: compute total pixels, good-quality pixels, % coverage per lake</span><span class="assignee assignee-ian">Ian</span></li>
+      <li><input type="checkbox" onchange="saveCheck(this)"><span>Drop passes with &lt;30% good coverage</span><span class="assignee assignee-ian">Ian</span></li>
+      <li><input type="checkbox" onchange="saveCheck(this)"><span><strong>Deliverable:</strong> Updated catalog CSV with quality stats — "X of Y passes usable per lake"</span><span class="assignee assignee-ian">Ian</span></li>
+      <li><input type="checkbox" onchange="saveCheck(this)"><span>Quick-look plots: SWH on lake map per pass (color 0-4 m, overlay shoreline)</span><span class="assignee assignee-ian">Ian</span></li>
+      <li><input type="checkbox" onchange="saveCheck(this)"><span><strong>Deliverable:</strong> Folder of quick-look PNGs (one per pass)</span><span class="assignee assignee-ian">Ian</span></li>
+    </ul>
+  </div>
+
+  <!-- Phase 3 -->
+  <div class="phase-header" onclick="togglePhase(3)">
+    <span class="phase-num">P3</span>
+    <span class="phase-title">Co-location with Model & Buoys</span>
+    <span class="phase-status tag" style="background:#3b82f633;color:var(--blue)">WEEK 3-4</span>
+  </div>
+  <div class="phase-body hidden" id="phase-3">
+    <ul class="task-list">
+      <li><input type="checkbox" onchange="saveCheck(this)"><span>For each pass, find closest SWOT pixel to each buoy (45002, 45003, 45004, 45007, 45008, 45212, 45213, 45214)</span><span class="assignee assignee-ian">Ian</span></li>
+      <li><input type="checkbox" onchange="saveCheck(this)"><span>Pull buoy SWH within +/-30 min of overpass time</span><span class="assignee assignee-ian">Ian</span></li>
+      <li><input type="checkbox" onchange="saveCheck(this)"><span><strong>Deliverable:</strong> Matched CSV: date, lake, buoy_id, buoy_swh, swot_swh, distance_km, time_diff_min</span><span class="assignee assignee-ian">Ian</span></li>
+      <li><input type="checkbox" onchange="saveCheck(this)"><span>Kate provides WW3 model output (3-hourly) for co-location</span><span class="assignee assignee-kate">Kate</span></li>
+      <li><input type="checkbox" onchange="saveCheck(this)"><span>Regrid SWOT onto WW3 GLWU unstructured grid (nearest-neighbor)</span><span class="assignee assignee-both">Both</span></li>
+      <li><input type="checkbox" onchange="saveCheck(this)"><span>Compute spatial difference maps: WW3_Hs - SWOT_SWH per pass</span><span class="assignee assignee-both">Both</span></li>
+      <li><input type="checkbox" onchange="saveCheck(this)"><span><strong>Deliverable:</strong> NetCDFs of matched SWOT-WW3 fields + difference maps</span><span class="assignee assignee-both">Both</span></li>
+      <li><input type="checkbox" onchange="saveCheck(this)"><span>Pull co-located HRRR winds (U10, V10) for each pass time</span><span class="assignee assignee-kate">Kate</span></li>
+      <li><input type="checkbox" onchange="saveCheck(this)"><span><strong>Deliverable:</strong> HRRR wind snapshots saved alongside SWH data</span><span class="assignee assignee-kate">Kate</span></li>
+    </ul>
+  </div>
+
+  <!-- Phase 4 -->
+  <div class="phase-header" onclick="togglePhase(4)">
+    <span class="phase-num">P4</span>
+    <span class="phase-title">Analysis-Ready Datasets</span>
+    <span class="phase-status tag" style="background:#8b5cf633;color:var(--purple)">WEEK 4-5</span>
+  </div>
+  <div class="phase-body hidden" id="phase-4">
+    <p style="font-size:13px;color:var(--dim);margin-bottom:12px;font-weight:600;">Direction 1: Spatial Validation (SWOT vs WW3)</p>
+    <ul class="task-list">
+      <li><input type="checkbox" onchange="saveCheck(this)"><span>Per-pass spatial bias stats: mean bias, RMSE, correlation (SWOT vs WW3)</span><span class="assignee assignee-both">Both</span></li>
+      <li><input type="checkbox" onchange="saveCheck(this)"><span>Bin bias by distance from shore (0-10 km, 10-30 km, 30+ km)</span><span class="assignee assignee-both">Both</span></li>
+      <li><input type="checkbox" onchange="saveCheck(this)"><span><strong>Deliverable:</strong> Composite spatial bias map per lake + summary stats table</span><span class="assignee assignee-both">Both</span></li>
+    </ul>
+    <p style="font-size:13px;color:var(--dim);margin:16px 0 12px;font-weight:600;">Direction 2: Fetch-Limited Growth (observed from space)</p>
+    <ul class="task-list">
+      <li><input type="checkbox" onchange="saveCheck(this)"><span>Filter passes with steady west-to-east HRRR wind (+/-30 deg), speed &gt;8 m/s</span><span class="assignee assignee-kate">Kate</span></li>
+      <li><input type="checkbox" onchange="saveCheck(this)"><span>Extract SWH along Michigan west-east transect from SWOT data</span><span class="assignee assignee-ian">Ian</span></li>
+      <li><input type="checkbox" onchange="saveCheck(this)"><span>Plot SWH vs fetch distance — check for power law</span><span class="assignee assignee-both">Both</span></li>
+      <li><input type="checkbox" onchange="saveCheck(this)"><span><strong>Deliverable:</strong> Fetch-growth scatter plots from SWOT, overlaid with WW3 baseline curves</span><span class="assignee assignee-both">Both</span></li>
+    </ul>
+    <p style="font-size:13px;color:var(--dim);margin:16px 0 12px;font-weight:600;">Direction 3: Gustiness Crossover Verification</p>
+    <ul class="task-list">
+      <li><input type="checkbox" onchange="saveCheck(this)"><span>Classify each pass by gustiness: gust factor from HRRR (max/mean wind in +/-3h window)</span><span class="assignee assignee-kate">Kate</span></li>
+      <li><input type="checkbox" onchange="saveCheck(this)"><span>Split passes: "gusty" (GF &gt; 1.3) vs "steady" (GF &lt; 1.15)</span><span class="assignee assignee-kate">Kate</span></li>
+      <li><input type="checkbox" onchange="saveCheck(this)"><span>Compare mean SWH spatial patterns — focus on western Michigan shore</span><span class="assignee assignee-both">Both</span></li>
+      <li><input type="checkbox" onchange="saveCheck(this)"><span><strong>Deliverable:</strong> Composite SWH maps for gusty vs steady + difference map</span><span class="assignee assignee-both">Both</span></li>
+    </ul>
+  </div>
+
+  <!-- Phase 5 -->
+  <div class="phase-header" onclick="togglePhase(5)">
+    <span class="phase-num">P5</span>
+    <span class="phase-title">Future / Stretch Goals</span>
+    <span class="phase-status tag" style="background:#33415533;color:var(--muted)">LATER</span>
+  </div>
+  <div class="phase-body hidden" id="phase-5">
+    <ul class="task-list">
+      <li><input type="checkbox" onchange="saveCheck(this)"><span>Extract sigma-naught from L2_HR_Raster — build observed roughness-to-Charnock relationships</span><span class="assignee assignee-both">Both</span></li>
+      <li><input type="checkbox" onchange="saveCheck(this)"><span>Compare SWOT-derived Charnock against WW3 alpha=0.033 vs COARE alpha=0.011</span><span class="assignee assignee-kate">Kate</span></li>
+      <li><input type="checkbox" onchange="saveCheck(this)"><span>Cross-reference top-5 storm events with SWOT pass timing</span><span class="assignee assignee-both">Both</span></li>
+      <li><input type="checkbox" onchange="saveCheck(this)"><span>Version D data download (SWOT_L2_LR_SSH_Windwave_D, May 2025+) — improved sigma-naught</span><span class="assignee assignee-ian">Ian</span></li>
+      <li><input type="checkbox" onchange="saveCheck(this)"><span>Contact Alejandro for coastal corrections on selected passes</span><span class="assignee assignee-kate">Kate</span></li>
+    </ul>
+  </div>
+</div>
+
+<!-- ==================== HISTORY ==================== -->
+<div id="view-history" class="hidden">
+  <div class="card">
+    <div class="card-title">Work Completed So Far</div>
+    <div class="card-subtitle">Chronological summary of all SWOT-related work from Oct 2025 to present</div>
+
+    <div class="finding" style="border-color: var(--green);">
+      <div class="finding-label" style="color: var(--green);">COMPLETED — Oct 2025</div>
+      <div style="font-size:14px;">Ian analyzed long-term wave variability using NDBC buoy data (1980s-present). Monthly averages, climatology, and standard error computed. Discovered discrepancies between NDBC and GLOSS data sources (GLOSS truncated in some periods). Both sources follow similar trends.</div>
+    </div>
+
+    <div class="finding" style="border-color: var(--green);">
+      <div class="finding-label" style="color: var(--green);">COMPLETED — Oct 2025</div>
+      <div style="font-size:14px;">Ian downloaded archived Donilan data (2010-2021). Started SWOT co-location without corrections. L2 LR (2 km resolution) identified as the right product (not L3). Beta correction needed for orbit-accumulated errors.</div>
+    </div>
+
+    <div class="finding" style="border-color: var(--green);">
+      <div class="finding-label" style="color: var(--green);">COMPLETED — Nov 2025</div>
+      <div style="font-size:14px;">Team established SWOT-buoy co-location approach. Ian to ID SWOT passes intersecting buoy locations. Michigan preferred for SWOT analysis (good satellite pass alignment with lake shape). Kate identified days with wave heights >2m for SWOT targeting. HRRR wind data sharing initiated.</div>
+    </div>
+
+    <div class="finding" style="border-color: var(--green);">
+      <div class="finding-label" style="color: var(--green);">COMPLETED — Nov 2025</div>
+      <div style="font-size:14px;">Ian analyzed statistical comparisons between buoy data and model outputs. July and December data for buoy 40507 showed less linear correlations. ERDAP database issue identified and resolved. WaveWatch data explored for SWH comparisons.</div>
+    </div>
+
+    <div class="finding" style="border-color: var(--green);">
+      <div class="finding-label" style="color: var(--green);">COMPLETED — Dec 2025</div>
+      <div style="font-size:14px;">Ian collected and analyzed MVDC station buoy data. Filtering: distance &lt;2.5 km from closest pixel, time diff within ~15 min. Added RMSE and bias calculations. Uploaded Jupyter notebooks to GitHub. Compared WaveWatch3 model data with buoy measurements.</div>
+    </div>
+
+    <div class="finding" style="border-color: var(--green);">
+      <div class="finding-label" style="color: var(--green);">KEY FINDING — Dec 2025</div>
+      <div style="font-size:14px;"><strong>SWOT accuracy is inversely proportional to SWH:</strong> performs poorly at low wave heights (&lt;1m), many zero values when buoy &lt;1m. Accuracy also affected by across-swath position (edges worse than center). Lake Michigan has best data-to-zeros ratio. Lake Superior has fewest zeros overall.</div>
+    </div>
+
+    <div class="finding" style="border-color: var(--green);">
+      <div class="finding-label" style="color: var(--green);">COMPLETED — Dec 2025</div>
+      <div style="font-size:14px;">July and October selected as target analysis months. October: higher waves, good buoy coverage before winter removal. July: summer baseline. CSV prep planned for Alejandro with buoy coords, SWOT coords, timestamps. Bounding box approach for data extraction.</div>
+    </div>
+
+    <div class="finding" style="border-color: var(--cyan);">
+      <div class="finding-label" style="color: var(--cyan);">DECISION — Dec 2025</div>
+      <div style="font-size:14px;">SWOT doesn't need to be central to Chapter 1. Dissertation focus may shift from being purely "winter waves." SWOT is its own project track. Version D data (with beta correction for antenna heating) identified as the target version.</div>
+    </div>
+
+    <div class="finding" style="border-color: var(--amber);">
+      <div class="finding-label" style="color: var(--amber);">PENDING — Jan 2026</div>
+      <div style="font-size:14px;">Task created: Download SWOT Version D Windwave data (SWOT_L2_LR_SSH_Windwave_D) from May 2025 onward for GL bounding box. Status: Next Action. High priority.</div>
+    </div>
+
+    <div class="finding" style="border-color: var(--amber);">
+      <div class="finding-label" style="color: var(--amber);">PENDING</div>
+      <div style="font-size:14px;">Waiting on Alejandro for processed SWOT data with coastal corrections. Follow-up needed — Alejandro is busy. Team can reach out directly when Bia is away.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Key Technical Decisions</div>
+    <table class="data-table">
+      <tr><th>Decision</th><th>Rationale</th><th>Date</th></tr>
+      <tr><td>Use L2 LR (2 km) over L3</td><td>Better resolution, more control over processing</td><td>Oct 2025</td></tr>
+      <tr><td>Start without beta correction</td><td>Understand raw data first, then compare corrected</td><td>Oct 2025</td></tr>
+      <tr><td>Filter SWH > 1m</td><td>SWOT unreliable below 1m (many zeros)</td><td>Dec 2025</td></tr>
+      <tr><td>July + October target months</td><td>High waves (Oct) + summer baseline (Jul), good buoy coverage</td><td>Dec 2025</td></tr>
+      <tr><td>Michigan preferred lake</td><td>Best satellite pass alignment with lake shape</td><td>Nov 2025</td></tr>
+      <tr><td>Version D is target</td><td>Includes beta correction for antenna heating drift</td><td>Dec 2025</td></tr>
+      <tr><td>Also explore L2_HR_LakeSP</td><td>Has pre-computed SWH for inland water bodies</td><td>Mar 2026</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ==================== MEETINGS ==================== -->
+<div id="view-meetings" class="hidden">
+
+  <div class="meeting-item">
+    <div class="meeting-date">October 29, 2025</div>
+    <div class="meeting-title">Wave Data Analysis: Buoy Discrepancies & SWOT Processing</div>
+    <div class="meeting-summary">Ian analyzed long-term wave variability (NDBC buoys, 1980s-present). Discovered NDBC vs GLOSS discrepancies. SWOT beta correction discussed. L2 LR recommended. Alejandro has shallow water/coastal algorithms.</div>
+    <div class="meeting-actions"><ul>
+      <li>Ian: detailed NDBC vs GLOSS plots</li>
+      <li>Ian: co-locate SWOT data, begin analysis without corrections</li>
+      <li>Eric: email about GLOSS truncation</li>
+      <li>Kate: create Slack thread</li>
+    </ul></div>
+  </div>
+
+  <div class="meeting-item">
+    <div class="meeting-date">November 13, 2025</div>
+    <div class="meeting-title">Great Lakes Wave Modeling & Analysis</div>
+    <div class="meeting-summary">WW3 accuracy diminishes above ~2.5-3m. RMSE recommended over R-squared. Michigan preferred for SWOT (good pass alignment). Kate identified days with Hs >2m. FECOM setup started.</div>
+    <div class="meeting-actions"><ul>
+      <li>Kate: shared high-wave event dates</li>
+      <li>Ian: check SWOT passes during high-wave events</li>
+      <li>Kate: RMSE by wave height bins</li>
+    </ul></div>
+  </div>
+
+  <div class="meeting-item">
+    <div class="meeting-date">November 19, 2025</div>
+    <div class="meeting-title">Research Team — Wave Data Analysis Progress</div>
+    <div class="meeting-summary">Statistical comparisons of buoy vs model outputs. July/Dec data for buoy 40507 less linear. ERDAP issue resolved. WaveWatch SWH comparisons explored.</div>
+  </div>
+
+  <div class="meeting-item">
+    <div class="meeting-date">December 5, 2025</div>
+    <div class="meeting-title">SWOT & Buoy Data Comparison Planning</div>
+    <div class="meeting-summary">Version D has pre-applied beta correction. Ian filtering: &lt;2.5 km distance, ~15 min time window. SWOT poor at low Hs. Added RMSE/bias. Notebooks on GitHub. July + October selected.</div>
+    <div class="meeting-actions"><ul>
+      <li>Kate: provide spotter data + coords to Ian</li>
+      <li>Ian: rerun with spotter data for Jul/Oct</li>
+      <li>Both: prepare Jul/Oct SWOT pass CSV</li>
+      <li>Bia: email Alejandro with data</li>
+    </ul></div>
+  </div>
+
+  <div class="meeting-item">
+    <div class="meeting-date">December 10, 2025</div>
+    <div class="meeting-title">SWOT Data Analysis & Buoy Coordination</div>
+    <div class="meeting-summary">Key finding: SWOT correlates better when filtered to >1m. Error inversely proportional to SWH. Across-swath angle affects accuracy (edges worse). Zero-value analysis by lake. CSV prep for Alejandro planned.</div>
+    <div class="meeting-actions"><ul>
+      <li>Ian: CSV with buoy coords + SWOT coords by Monday</li>
+      <li>Kate: reach out to Alejandro (CC team)</li>
+      <li>Team: coordinate spring meeting schedule</li>
+    </ul></div>
+  </div>
+
+</div>
+
+<!-- ==================== DIRECTIONS ==================== -->
+<div id="view-directions" class="hidden">
+  <div class="direction-card">
+    <div class="direction-num">1</div>
+    <div class="direction-title">Spatial Validation of WW3</div>
+    <div class="direction-desc">
+      <p>Buoys give point comparisons. SWOT gives 2D SWH maps that can be directly overlaid on WW3 gridded output. Produce spatial bias maps (model - SWOT) instead of just bias at 5-8 buoy locations.</p>
+      <p style="margin-top:8px;"><strong>Key question:</strong> Is the +0.28 m bias uniform or does it have spatial structure (fetch-dependent? nearshore vs offshore)?</p>
+      <p style="margin-top:8px;color:var(--blue);font-weight:600;">Connects to: Winter Validation project</p>
+    </div>
+  </div>
+  <div class="direction-card">
+    <div class="direction-num">2</div>
+    <div class="direction-title">Satellite-Observed Fetch-Limited Growth</div>
+    <div class="direction-desc">
+      <p>Kate's gustiness work found C(fetch) varies 6x along a Michigan transect — but that's all model-derived. SWOT can provide <strong>observed</strong> along-fetch SWH profiles. Pick passes where wind is roughly cross-swath to get empirical fetch-growth curves.</p>
+      <p style="margin-top:8px;"><strong>Potential first:</strong> First satellite-observed fetch-limited growth curves in the Great Lakes.</p>
+      <p style="margin-top:8px;color:var(--purple);font-weight:600;">Connects to: Gustiness project</p>
+    </div>
+  </div>
+  <div class="direction-card">
+    <div class="direction-num">3</div>
+    <div class="direction-title">Gustiness Crossover Spatial Verification</div>
+    <div class="direction-desc">
+      <p>Finding 3 (negative enhancement at short fetch / western shore) is currently model + limited buoy evidence. Classify SWOT passes by gustiness using HRRR, then check whether spatial SWH patterns near the upwind shore match model predictions.</p>
+      <p style="margin-top:8px;"><strong>Key question:</strong> Do gusty conditions show suppressed SWH at short fetch compared to steady conditions?</p>
+      <p style="margin-top:8px;color:var(--purple);font-weight:600;">Connects to: Gustiness project</p>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CODE ==================== -->
+<div id="view-code" class="hidden">
+  <div class="card">
+    <div class="card-title">Upload Code</div>
+    <div class="card-subtitle">Drag & drop Python files or paste code below. Stored in your browser.</div>
+
+    <div class="drop-zone" id="code-drop-zone" onclick="document.getElementById('code-file-input').click()">
+      Drop .py / .ipynb / .txt files here, or click to browse
+      <input type="file" id="code-file-input" accept=".py,.ipynb,.txt,.json,.csv,.sh" multiple>
+    </div>
+
+    <div style="margin-bottom: 16px;">
+      <div class="add-form" id="paste-form">
+        <label>Or paste code directly:</label>
+        <input type="text" id="paste-name" placeholder="Filename (e.g. download_swot.py)">
+        <textarea id="paste-code" placeholder="Paste your code here..." style="font-family:'SF Mono','Fira Code',monospace; font-size:12px; min-height:120px;"></textarea>
+        <button class="btn" onclick="saveCodeFromPaste()">Save Code</button>
+      </div>
+    </div>
+
+    <div id="code-list"></div>
+  </div>
+</div>
+
+<!-- ==================== DATA ==================== -->
+<div id="view-data" class="hidden">
+
+  <!-- Sub-nav for data categories -->
+  <div style="display:flex;gap:4px;margin-bottom:16px;" id="data-nav">
+    <button class="active" data-dtype="swot" onclick="switchDataTab('swot')" style="background:var(--surface);color:var(--bright);border:1px solid var(--border);border-radius:6px;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;">SWOT</button>
+    <button data-dtype="ww3" onclick="switchDataTab('ww3')" style="background:transparent;color:var(--muted);border:1px solid transparent;border-radius:6px;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;">WW3 Model</button>
+    <button data-dtype="hrrr" onclick="switchDataTab('hrrr')" style="background:transparent;color:var(--muted);border:1px solid transparent;border-radius:6px;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;">HRRR Winds</button>
+  </div>
+
+  <!-- SWOT Data -->
+  <div id="data-tab-swot">
+    <div class="card">
+      <div class="card-title" style="color:var(--cyan);">SWOT Data Log</div>
+      <div class="card-subtitle">Track SWOT satellite passes and data files. Metadata only — actual files stay on disk.</div>
+      <div class="drop-zone" id="data-drop-zone" onclick="document.getElementById('data-file-input').click()">
+        Drop files here to log metadata (name, size) — files are NOT uploaded
+        <input type="file" id="data-file-input" multiple>
+      </div>
+      <div class="add-form">
+        <div class="form-row">
+          <div><label>Filename</label><input type="text" id="data-filename" placeholder="e.g. SWOT_L2_HR_LakeSP_20240715.nc"></div>
+          <div><label>Lake</label>
+            <select id="data-lake">
+              <option value="Michigan">Michigan</option><option value="Superior">Superior</option>
+              <option value="Huron">Huron</option><option value="Erie">Erie</option>
+              <option value="Ontario">Ontario</option><option value="All">All GL</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div><label>Date of Pass</label><input type="date" id="data-date"></div>
+          <div><label>File Size</label><input type="text" id="data-size" placeholder="e.g. 245 MB"></div>
+        </div>
+        <div class="form-row">
+          <div><label>File Path</label><input type="text" id="data-path" placeholder="e.g. /data/SWOT/Michigan/"></div>
+          <div><label>Status</label>
+            <select id="data-status">
+              <option value="downloaded">Downloaded</option><option value="qc-passed">QC Passed</option>
+              <option value="qc-failed">QC Failed</option><option value="processed">Processed</option>
+              <option value="matched">Matched w/ buoy</option>
+            </select>
+          </div>
+        </div>
+        <label>Notes</label>
+        <textarea id="data-notes" placeholder="Notes..." style="min-height:40px;"></textarea>
+        <button class="btn" onclick="addDataEntry('swot')">Add SWOT Entry</button>
+      </div>
+      <div style="margin:16px 0 8px;display:flex;justify-content:space-between;align-items:center;">
+        <div class="card-title" style="font-size:14px;margin:0;">SWOT Inventory</div>
+        <div style="display:flex;gap:8px;">
+          <button class="btn btn-outline" style="font-size:11px;padding:4px 12px;" onclick="exportDataCSV('swot')">Export CSV</button>
+          <span id="data-count-swot" style="font-size:12px;color:var(--muted);padding-top:4px;"></span>
+        </div>
+      </div>
+      <div id="data-list-swot"></div>
+    </div>
+  </div>
+
+  <!-- WW3 Data -->
+  <div id="data-tab-ww3" class="hidden">
+    <div class="card">
+      <div class="card-title" style="color:var(--amber);">WW3 Model Output Log</div>
+      <div class="card-subtitle">Track WaveWatch III model output files — gridded fields, point output, spectra.</div>
+      <div class="drop-zone" id="ww3-drop-zone" onclick="document.getElementById('ww3-file-input').click()">
+        Drop files here to log metadata
+        <input type="file" id="ww3-file-input" multiple>
+      </div>
+      <div class="add-form">
+        <div class="form-row">
+          <div><label>Filename</label><input type="text" id="ww3-filename" placeholder="e.g. ww3_glwu_20250601_3h.nc"></div>
+          <div><label>Run Type</label>
+            <select id="ww3-runtype">
+              <option value="baseline">Baseline</option><option value="betamax-1.39">BETAMAX 1.39</option>
+              <option value="ic0">IC0 (ice)</option><option value="gustiness">Gustiness</option>
+              <option value="sensitivity">Sensitivity</option><option value="other">Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div><label>Date Range</label><input type="text" id="ww3-daterange" placeholder="e.g. Jun-Dec 2025"></div>
+          <div><label>File Size</label><input type="text" id="ww3-size" placeholder="e.g. 1.2 GB"></div>
+        </div>
+        <div class="form-row">
+          <div><label>File Path</label><input type="text" id="ww3-path" placeholder="e.g. /Volumes/ExternalHD/WW3/2025/"></div>
+          <div><label>Status</label>
+            <select id="ww3-status">
+              <option value="on-hpc">On HPC</option><option value="downloading">Downloading</option>
+              <option value="on-disk">On External HD</option><option value="verified">Verified</option>
+              <option value="processed">Processed</option>
+            </select>
+          </div>
+        </div>
+        <label>Notes</label>
+        <textarea id="ww3-notes" placeholder="Variables, grid info, issues..." style="min-height:40px;"></textarea>
+        <button class="btn" style="background:var(--amber);" onclick="addDataEntry('ww3')">Add WW3 Entry</button>
+      </div>
+      <div style="margin:16px 0 8px;display:flex;justify-content:space-between;align-items:center;">
+        <div class="card-title" style="font-size:14px;margin:0;">WW3 Inventory</div>
+        <div style="display:flex;gap:8px;">
+          <button class="btn btn-outline" style="font-size:11px;padding:4px 12px;" onclick="exportDataCSV('ww3')">Export CSV</button>
+          <span id="data-count-ww3" style="font-size:12px;color:var(--muted);padding-top:4px;"></span>
+        </div>
+      </div>
+      <div id="data-list-ww3"></div>
+    </div>
+  </div>
+
+  <!-- HRRR Data -->
+  <div id="data-tab-hrrr" class="hidden">
+    <div class="card">
+      <div class="card-title" style="color:var(--green);">HRRR Wind Forcing Log</div>
+      <div class="card-subtitle">Track HRRR atmospheric forcing files used for WW3 runs and SWOT co-location.</div>
+      <div class="drop-zone" id="hrrr-drop-zone" onclick="document.getElementById('hrrr-file-input').click()">
+        Drop files here to log metadata
+        <input type="file" id="hrrr-file-input" multiple>
+      </div>
+      <div class="add-form">
+        <div class="form-row">
+          <div><label>Filename / Pattern</label><input type="text" id="hrrr-filename" placeholder="e.g. hrrr.20250601.f01.grib2"></div>
+          <div><label>Forecast Hour</label>
+            <select id="hrrr-fhour">
+              <option value="F01">F01 (standard)</option><option value="F00">F00</option>
+              <option value="F02">F02</option><option value="multiple">Multiple</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div><label>Date Range</label><input type="text" id="hrrr-daterange" placeholder="e.g. Jun-Dec 2025"></div>
+          <div><label>File Size</label><input type="text" id="hrrr-size" placeholder="e.g. 45 GB total"></div>
+        </div>
+        <div class="form-row">
+          <div><label>File Path</label><input type="text" id="hrrr-path" placeholder="e.g. /beegfs/sets/cee001/Kate/HRRR/"></div>
+          <div><label>Status</label>
+            <select id="hrrr-status">
+              <option value="on-hpc">On HPC</option><option value="downloading">Downloading</option>
+              <option value="on-disk">On External HD</option><option value="subset">Subset/GL only</option>
+              <option value="processed">Processed for WW3</option>
+            </select>
+          </div>
+        </div>
+        <label>Notes</label>
+        <textarea id="hrrr-notes" placeholder="Variables extracted, region, issues..." style="min-height:40px;"></textarea>
+        <button class="btn" style="background:var(--green);" onclick="addDataEntry('hrrr')">Add HRRR Entry</button>
+      </div>
+      <div style="margin:16px 0 8px;display:flex;justify-content:space-between;align-items:center;">
+        <div class="card-title" style="font-size:14px;margin:0;">HRRR Inventory</div>
+        <div style="display:flex;gap:8px;">
+          <button class="btn btn-outline" style="font-size:11px;padding:4px 12px;" onclick="exportDataCSV('hrrr')">Export CSV</button>
+          <span id="data-count-hrrr" style="font-size:12px;color:var(--muted);padding-top:4px;"></span>
+        </div>
+      </div>
+      <div id="data-list-hrrr"></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ==================== REFERENCE ==================== -->
+<div id="view-reference" class="hidden">
+  <div class="card">
+    <div class="card-title">SWOT Data Products</div>
+    <table class="data-table">
+      <tr><th>Product</th><th>Resolution</th><th>Key Variables</th><th>Use For</th></tr>
+      <tr><td>L2_HR_LakeSP</td><td>Varies</td><td>SWH (pre-computed), WSE</td><td>Primary SWH source for inland waters</td></tr>
+      <tr><td>L2_HR_Raster</td><td>250m</td><td>WSE, sigma-naught</td><td>Roughness / Charnock analysis</td></tr>
+      <tr><td>L2_LR_SSH</td><td>~2 km</td><td>SSH, SWH, sigma-naught</td><td>Ian's current working product</td></tr>
+      <tr><td>L2_LR_SSH_Windwave_D</td><td>~2 km</td><td>SSH, SWH, sigma-naught (corrected)</td><td>Version D with beta correction</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Buoy Locations</div>
+    <table class="data-table">
+      <tr><th>ID</th><th>Lake</th><th>Type</th><th>Notes</th></tr>
+      <tr><td>45002</td><td>Michigan (N)</td><td>NDBC</td><td>Permanent</td></tr>
+      <tr><td>45003</td><td>Huron (N)</td><td>NDBC</td><td>Permanent</td></tr>
+      <tr><td>45004</td><td>Superior (E)</td><td>NDBC</td><td>Correct buoy for Superior (NOT 45006)</td></tr>
+      <tr><td>45007</td><td>Michigan (S)</td><td>NDBC</td><td>Permanent</td></tr>
+      <tr><td>45008</td><td>Huron (S)</td><td>NDBC</td><td>Permanent</td></tr>
+      <tr><td>45212</td><td>Huron</td><td>Spotter</td><td>Winter deployment — verify coordinates</td></tr>
+      <tr><td>45213</td><td>Superior</td><td>Spotter</td><td>Winter deployment — verify coordinates</td></tr>
+      <tr><td>45214</td><td>Michigan</td><td>Spotter</td><td>Winter deployment — verify coordinates</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">SWOT Pass Estimates</div>
+    <table class="data-table">
+      <tr><th>Metric</th><th>Value</th></tr>
+      <tr><td>Repeat cycle</td><td>21 days</td></tr>
+      <tr><td>Swath width</td><td>120 km (two 50 km strips, 20 km nadir gap)</td></tr>
+      <tr><td>Passes per cycle over GL</td><td>~13-14</td></tr>
+      <tr><td>Viable (ice-free) passes/year</td><td>~85-90</td></tr>
+      <tr><td>Total viable since Apr 2023</td><td>~200-225</td></tr>
+      <tr><td>Lake Michigan per year</td><td>~35-50</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Known Data Issues</div>
+    <ul style="font-size:14px;padding-left:20px;">
+      <li>SWOT unreliable for SWH &lt;1m (many zeros) — filter to &gt;1m</li>
+      <li>Across-swath edges have worse accuracy than center</li>
+      <li>Beta correction needed for antenna heating drift (Version D has this pre-applied)</li>
+      <li>Zero values highest when buoy Hs is 0.1-0.2m</li>
+      <li>Alejandro has coastal algorithms that may help — pending contact</li>
+      <li>Spotter buoy coordinates may have shifted — need verification</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Tools & Access</div>
+    <ul style="font-size:14px;padding-left:20px;">
+      <li><strong>Data source:</strong> NASA PO.DAAC via earthaccess / podaac-data-downloader</li>
+      <li><strong>Auth:</strong> NASA Earthdata login</li>
+      <li><strong>Ian's notebooks:</strong> GitHub (Jupyter)</li>
+      <li><strong>HRRR winds:</strong> Kate's archive on HPC</li>
+      <li><strong>WW3 model output:</strong> Kate's external HD (downloading now)</li>
+      <li><strong>Contact:</strong> Alejandro (via Bia) for coastal corrections</li>
+    </ul>
+  </div>
+</div>
+
+<div id="sync-status" style="position:fixed;bottom:12px;right:12px;font-size:11px;padding:4px 10px;border-radius:4px;background:var(--surface);border:1px solid var(--border);color:var(--muted);z-index:100;"></div>
+
+<footer>
+  <span>Kate Huelse & Ian — Colorado School of Mines</span>
+  <span id="update-date"></span>
+</footer>
+
+<!-- Firebase SDK (compat for simple inline usage) -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+
+<script>
+// ============================================================
+// FIREBASE INIT
+// ============================================================
+const firebaseConfig = {
+  apiKey: "AIzaSyA4DlOwgHffOE3VQDWAWSMx3YsfbqRlPck",
+  authDomain: "swot-great-lakes.firebaseapp.com",
+  databaseURL: "https://swot-great-lakes-default-rtdb.firebaseio.com",
+  projectId: "swot-great-lakes",
+  storageBucket: "swot-great-lakes.firebasestorage.app",
+  messagingSenderId: "574505431274",
+  appId: "1:574505431274:web:7cefafc14c256bf3d42793"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+const syncEl = document.getElementById('sync-status');
+function showSync(msg, color) {
+  syncEl.textContent = msg;
+  syncEl.style.color = color || 'var(--green)';
+  setTimeout(() => { syncEl.textContent = 'Synced'; syncEl.style.color = 'var(--muted)'; }, 2000);
+}
+
+// Track whether we're receiving a Firebase update (to avoid write loops)
+let suppressWrite = { checks: false, code: false, data: false };
+
+document.getElementById('update-date').textContent = 'Updated ' + new Date().toISOString().slice(0,10);
+
+const ALL_VIEWS = ['tasks','history','meetings','directions','code','data','reference'];
+
+// Nav
+document.getElementById('nav').addEventListener('click', e => {
+  if (e.target.tagName !== 'BUTTON') return;
+  const view = e.target.dataset.view;
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  e.target.classList.add('active');
+  ALL_VIEWS.forEach(v => {
+    document.getElementById('view-' + v).classList.toggle('hidden', v !== view);
+  });
+});
+
+// Phase toggle
+function togglePhase(n) {
+  document.getElementById('phase-' + n).classList.toggle('hidden');
+}
+
+// Escape HTML
+function esc(s) { const d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
+
+function guessLake(name) {
+  const n = name.toLowerCase();
+  if (n.includes('michigan')) return 'Michigan';
+  if (n.includes('superior')) return 'Superior';
+  if (n.includes('huron')) return 'Huron';
+  if (n.includes('erie')) return 'Erie';
+  if (n.includes('ontario')) return 'Ontario';
+  return 'All';
+}
+
+// ============================================================
+// CHECKBOXES — synced via Firebase
+// ============================================================
+let currentChecks = {};
+
+function saveCheck(cb) {
+  const idx = Array.from(document.querySelectorAll('.task-list input[type="checkbox"]')).indexOf(cb);
+  if (idx === -1) return;
+  currentChecks[idx] = cb.checked;
+  cb.closest('li').querySelector('span').classList.toggle('checked', cb.checked);
+  db.ref('checks').set(currentChecks);
+  showSync('Saved');
+}
+
+function applyChecks(checks) {
+  currentChecks = checks || {};
+  const boxes = document.querySelectorAll('.task-list input[type="checkbox"]');
+  Object.keys(currentChecks).forEach(idx => {
+    if (boxes[idx]) {
+      boxes[idx].checked = !!currentChecks[idx];
+      boxes[idx].closest('li').querySelector('span').classList.toggle('checked', !!currentChecks[idx]);
+    }
+  });
+}
+
+// Real-time listener for checks
+db.ref('checks').on('value', snap => {
+  applyChecks(snap.val());
+  showSync('Synced');
+});
+
+// ============================================================
+// CODE TAB — synced via Firebase
+// ============================================================
+let codeFiles = [];
+
+function renderCodeList() {
+  const el = document.getElementById('code-list');
+  if (!codeFiles.length) {
+    el.innerHTML = '<p style="font-size:13px;color:var(--muted);text-align:center;padding:24px;">No code uploaded yet. Drop a file or paste code above.</p>';
+    return;
+  }
+  el.innerHTML = codeFiles.map((f, i) => `
+    <div class="code-entry">
+      <div class="code-entry-header" onclick="toggleCode(${i})">
+        <div>
+          <span class="code-entry-name">${esc(f.name)}</span>
+          <span class="code-entry-meta" style="margin-left:12px;">${f.lines || '?'} lines &middot; ${f.date || ''} &middot; ${esc(f.author || '')}</span>
+        </div>
+        <div>
+          <button class="btn btn-outline" style="font-size:11px;padding:2px 10px;margin-right:4px;" onclick="event.stopPropagation();copyCode(${i})">Copy</button>
+          <button class="delete-btn" onclick="event.stopPropagation();deleteCode(${i})" title="Delete">&times;</button>
+        </div>
+      </div>
+      <div class="code-entry-body hidden" id="code-body-${i}">
+        <pre>${esc(f.content)}</pre>
+      </div>
+    </div>
+  `).join('');
+}
+
+function toggleCode(i) {
+  document.getElementById('code-body-' + i).classList.toggle('hidden');
+}
+
+function copyCode(i) {
+  navigator.clipboard.writeText(codeFiles[i].content);
+  showSync('Copied!');
+}
+
+function deleteCode(i) {
+  if (!confirm('Delete this file?')) return;
+  codeFiles.splice(i, 1);
+  db.ref('code').set(codeFiles);
+  showSync('Deleted');
+}
+
+function addCodeFile(name, content, author) {
+  const lines = content.split('\n').length;
+  codeFiles.unshift({ name, content, lines, date: new Date().toISOString().slice(0, 10), author: author || '' });
+  if (codeFiles.length > 50) codeFiles.pop();
+  db.ref('code').set(codeFiles);
+  showSync('Code saved');
+}
+
+function saveCodeFromPaste() {
+  const name = document.getElementById('paste-name').value.trim() || 'untitled.py';
+  const code = document.getElementById('paste-code').value;
+  if (!code.trim()) return;
+  addCodeFile(name, code, '');
+  document.getElementById('paste-name').value = '';
+  document.getElementById('paste-code').value = '';
+}
+
+// Real-time listener for code
+db.ref('code').on('value', snap => {
+  codeFiles = snap.val() || [];
+  renderCodeList();
+  showSync('Synced');
+});
+
+// Drag and drop for code
+const codeDropZone = document.getElementById('code-drop-zone');
+codeDropZone.addEventListener('dragover', e => { e.preventDefault(); codeDropZone.classList.add('drag-over'); });
+codeDropZone.addEventListener('dragleave', () => codeDropZone.classList.remove('drag-over'));
+codeDropZone.addEventListener('drop', e => {
+  e.preventDefault(); codeDropZone.classList.remove('drag-over');
+  handleCodeFiles(e.dataTransfer.files);
+});
+document.getElementById('code-file-input').addEventListener('change', e => {
+  handleCodeFiles(e.target.files);
+  e.target.value = '';
+});
+
+function handleCodeFiles(fileList) {
+  Array.from(fileList).forEach(file => {
+    if (file.size > 500000) {
+      alert(file.name + ' is too large (>500KB). Only code files are stored.');
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => addCodeFile(file.name, reader.result, '');
+    reader.readAsText(file);
+  });
+}
+
+// ============================================================
+// DATA TABS — three categories, all synced via Firebase
+// ============================================================
+const allData = { swot: [], ww3: [], hrrr: [] };
+
+const statusColors = {
+  'downloaded': 'var(--amber)', 'qc-passed': 'var(--green)', 'qc-failed': 'var(--red)',
+  'processed': 'var(--blue)', 'matched': 'var(--purple)', 'on-hpc': 'var(--cyan)',
+  'downloading': 'var(--amber)', 'on-disk': 'var(--green)', 'verified': 'var(--green)',
+  'subset': 'var(--blue)',
+};
+const statusIcons = {
+  'downloaded': '&#x2B07;', 'qc-passed': '&#x2714;', 'qc-failed': '&#x2718;',
+  'processed': '&#x2699;', 'matched': '&#x1F517;', 'on-hpc': '&#x1F5A5;',
+  'downloading': '&#x23F3;', 'on-disk': '&#x1F4BE;', 'verified': '&#x2714;',
+  'subset': '&#x2702;',
+};
+
+function switchDataTab(dtype) {
+  ['swot','ww3','hrrr'].forEach(t => {
+    document.getElementById('data-tab-' + t).classList.toggle('hidden', t !== dtype);
+  });
+  document.querySelectorAll('#data-nav button').forEach(b => {
+    const active = b.getAttribute('data-dtype') === dtype;
+    b.style.background = active ? 'var(--surface)' : 'transparent';
+    b.style.color = active ? 'var(--bright)' : 'var(--muted)';
+    b.style.borderColor = active ? 'var(--border)' : 'transparent';
+  });
+}
+
+function renderDataList(dtype) {
+  const entries = allData[dtype] || [];
+  const el = document.getElementById('data-list-' + dtype);
+  const countEl = document.getElementById('data-count-' + dtype);
+  if (countEl) countEl.textContent = entries.length + ' files logged';
+  if (!entries.length) {
+    el.innerHTML = '<p style="font-size:13px;color:var(--muted);text-align:center;padding:24px;">No data logged yet.</p>';
+    return;
+  }
+  el.innerHTML = entries.map((d, i) => `
+    <div class="data-entry">
+      <div class="data-entry-icon" style="color:${statusColors[d.status] || 'var(--cyan)'};">
+        ${statusIcons[d.status] || '&#x1F4C4;'}
+      </div>
+      <div class="data-entry-info">
+        <div class="data-entry-name">${esc(d.filename)}</div>
+        <div class="data-entry-desc">
+          ${d.lake ? '<span class="tag" style="background:#06b6d422;color:var(--cyan);margin-right:4px;">' + esc(d.lake) + '</span>' : ''}
+          ${d.runtype ? '<span class="tag" style="background:#f59e0b22;color:var(--amber);margin-right:4px;">' + esc(d.runtype) + '</span>' : ''}
+          ${d.fhour ? '<span class="tag" style="background:#22c55e22;color:var(--green);margin-right:4px;">' + esc(d.fhour) + '</span>' : ''}
+          <span class="tag" style="background:${statusColors[d.status] || 'var(--border)'}33;color:${statusColors[d.status] || 'var(--dim)'};">${d.status}</span>
+          ${d.date || d.daterange ? ' &middot; ' + (d.date || d.daterange) : ''}
+          ${d.size ? ' &middot; ' + esc(d.size) : ''}
+        </div>
+        ${d.path ? '<div class="data-entry-size" style="margin-top:2px;">Path: <code>' + esc(d.path) + '</code></div>' : ''}
+        ${d.notes ? '<div class="data-entry-size" style="margin-top:2px;">' + esc(d.notes) + '</div>' : ''}
+      </div>
+      <button class="delete-btn" onclick="deleteData('${dtype}',${i})" title="Remove">&times;</button>
+    </div>
+  `).join('');
+}
+
+function addDataEntry(dtype) {
+  let entry = { added: new Date().toISOString().slice(0, 10) };
+  if (dtype === 'swot') {
+    const fn = document.getElementById('data-filename').value.trim();
+    if (!fn) { alert('Enter a filename.'); return; }
+    entry = { ...entry, filename: fn, lake: document.getElementById('data-lake').value,
+      date: document.getElementById('data-date').value, size: document.getElementById('data-size').value.trim(),
+      path: document.getElementById('data-path').value.trim(), status: document.getElementById('data-status').value,
+      notes: document.getElementById('data-notes').value.trim() };
+    ['data-filename','data-date','data-size','data-path','data-notes'].forEach(id => document.getElementById(id).value = '');
+  } else if (dtype === 'ww3') {
+    const fn = document.getElementById('ww3-filename').value.trim();
+    if (!fn) { alert('Enter a filename.'); return; }
+    entry = { ...entry, filename: fn, runtype: document.getElementById('ww3-runtype').value,
+      daterange: document.getElementById('ww3-daterange').value.trim(), size: document.getElementById('ww3-size').value.trim(),
+      path: document.getElementById('ww3-path').value.trim(), status: document.getElementById('ww3-status').value,
+      notes: document.getElementById('ww3-notes').value.trim() };
+    ['ww3-filename','ww3-daterange','ww3-size','ww3-path','ww3-notes'].forEach(id => document.getElementById(id).value = '');
+  } else if (dtype === 'hrrr') {
+    const fn = document.getElementById('hrrr-filename').value.trim();
+    if (!fn) { alert('Enter a filename.'); return; }
+    entry = { ...entry, filename: fn, fhour: document.getElementById('hrrr-fhour').value,
+      daterange: document.getElementById('hrrr-daterange').value.trim(), size: document.getElementById('hrrr-size').value.trim(),
+      path: document.getElementById('hrrr-path').value.trim(), status: document.getElementById('hrrr-status').value,
+      notes: document.getElementById('hrrr-notes').value.trim() };
+    ['hrrr-filename','hrrr-daterange','hrrr-size','hrrr-path','hrrr-notes'].forEach(id => document.getElementById(id).value = '');
+  }
+  allData[dtype].unshift(entry);
+  db.ref('data_' + dtype).set(allData[dtype]);
+  showSync(dtype.toUpperCase() + ' entry saved');
+}
+
+function deleteData(dtype, i) {
+  if (!confirm('Remove this entry?')) return;
+  allData[dtype].splice(i, 1);
+  db.ref('data_' + dtype).set(allData[dtype]);
+  showSync('Removed');
+}
+
+function exportDataCSV(dtype) {
+  const entries = allData[dtype] || [];
+  if (!entries.length) { alert('No data to export.'); return; }
+  const allKeys = [...new Set(entries.flatMap(Object.keys))];
+  const csv = [allKeys.join(',')].concat(
+    entries.map(d => allKeys.map(h => '"' + (d[h] || '').replace(/"/g,'""') + '"').join(','))
+  ).join('\n');
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = dtype + '_inventory_' + new Date().toISOString().slice(0,10) + '.csv';
+  a.click();
+}
+
+// Real-time listeners for all three data types
+['swot','ww3','hrrr'].forEach(dtype => {
+  db.ref('data_' + dtype).on('value', snap => {
+    allData[dtype] = snap.val() || [];
+    renderDataList(dtype);
+  });
+});
+
+// Drag-drop for SWOT
+const dataDropZone = document.getElementById('data-drop-zone');
+dataDropZone.addEventListener('dragover', e => { e.preventDefault(); dataDropZone.classList.add('drag-over'); });
+dataDropZone.addEventListener('dragleave', () => dataDropZone.classList.remove('drag-over'));
+dataDropZone.addEventListener('drop', e => { e.preventDefault(); dataDropZone.classList.remove('drag-over'); handleDataDrop('swot', e.dataTransfer.files); });
+document.getElementById('data-file-input').addEventListener('change', e => { handleDataDrop('swot', e.target.files); e.target.value = ''; });
+
+// Drag-drop for WW3
+const ww3DropZone = document.getElementById('ww3-drop-zone');
+ww3DropZone.addEventListener('dragover', e => { e.preventDefault(); ww3DropZone.classList.add('drag-over'); });
+ww3DropZone.addEventListener('dragleave', () => ww3DropZone.classList.remove('drag-over'));
+ww3DropZone.addEventListener('drop', e => { e.preventDefault(); ww3DropZone.classList.remove('drag-over'); handleDataDrop('ww3', e.dataTransfer.files); });
+document.getElementById('ww3-file-input').addEventListener('change', e => { handleDataDrop('ww3', e.target.files); e.target.value = ''; });
+
+// Drag-drop for HRRR
+const hrrrDropZone = document.getElementById('hrrr-drop-zone');
+hrrrDropZone.addEventListener('dragover', e => { e.preventDefault(); hrrrDropZone.classList.add('drag-over'); });
+hrrrDropZone.addEventListener('dragleave', () => hrrrDropZone.classList.remove('drag-over'));
+hrrrDropZone.addEventListener('drop', e => { e.preventDefault(); hrrrDropZone.classList.remove('drag-over'); handleDataDrop('hrrr', e.dataTransfer.files); });
+document.getElementById('hrrr-file-input').addEventListener('change', e => { handleDataDrop('hrrr', e.target.files); e.target.value = ''; });
+
+function handleDataDrop(dtype, fileList) {
+  Array.from(fileList).forEach(file => {
+    const sizeStr = file.size > 1048576 ? (file.size / 1048576).toFixed(1) + ' MB' : (file.size / 1024).toFixed(0) + ' KB';
+    const entry = { filename: file.name, size: sizeStr, status: 'downloaded', notes: 'Dropped via browser', added: new Date().toISOString().slice(0,10) };
+    if (dtype === 'swot') entry.lake = guessLake(file.name);
+    allData[dtype].unshift(entry);
+  });
+  db.ref('data_' + dtype).set(allData[dtype]);
+  showSync(dtype.toUpperCase() + ' logged');
+}
+
+// ============================================================
+// CONNECTION STATUS
+// ============================================================
+db.ref('.info/connected').on('value', snap => {
+  syncEl.textContent = snap.val() ? 'Connected' : 'Offline';
+  syncEl.style.color = snap.val() ? 'var(--green)' : 'var(--red)';
+});
+</script>
+</body>
+</html>
