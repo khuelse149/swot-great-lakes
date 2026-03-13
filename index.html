@@ -271,7 +271,8 @@
       <li><input type="checkbox" onchange="saveCheck(this)"><span>Compute spatial difference maps: WW3_Hs - SWOT_SWH per pass</span><span class="assignee assignee-both">Both</span></li>
       <li><input type="checkbox" onchange="saveCheck(this)"><span><strong>Deliverable:</strong> NetCDFs of matched SWOT-WW3 fields + difference maps</span><span class="assignee assignee-both">Both</span></li>
       <li><input type="checkbox" onchange="saveCheck(this)"><span>✅ HRRR download script written (download_hrrr_for_swot.py) — <strong>DONE: extracts UGRD, VGRD, WIND, GUST, FRICV, TMP, SST for each overpass</strong></span><span class="assignee assignee-kate">Kate</span></li>
-      <li><input type="checkbox" onchange="saveCheck(this)"><span>Run HRRR download script → save to /Volumes/Extreme SSD/SWOT/HRRR/</span><span class="assignee assignee-kate">Kate</span></li>
+      <li><input type="checkbox" onchange="saveCheck(this)"><span>✅ HRRR data downloaded — <strong>DONE: 132 NetCDF files (793 MB), May–Nov 2025. Local: /Volumes/Extreme SSD/SWOT/HRRR/ | HPC: wendian:/beegfs/sets/cee001/Kate/SWOT/HRRR/</strong></span><span class="assignee assignee-kate">Kate</span></li>
+      <li><input type="checkbox" onchange="saveCheck(this)"><span>✅ SWOT-to-HRRR mapping CSV created (swot_to_hrrr_mapping.csv) — links each SWOT overpass to its nearest HRRR analysis hour</span><span class="assignee assignee-kate">Kate</span></li>
     </ul>
   </div>
 
@@ -374,12 +375,12 @@
 
     <div class="finding" style="border-color: var(--green);">
       <div class="finding-label" style="color: var(--green);">COMPLETED — Mar 2026</div>
-      <div style="font-size:14px;"><strong>Kate: HRRR download script written</strong> (download_hrrr_for_swot.py). Extracts 10-m wind (UGRD, VGRD, WIND), gust, friction velocity, 2-m temperature, and SST from HRRR f00 analysis for each SWOT overpass hour. Subsets to Great Lakes bounding box, saves compressed NetCDFs to external SSD. Creates swot_to_hrrr_mapping.csv linking SWOT times to HRRR files.</div>
+      <div style="font-size:14px;"><strong>Kate: HRRR data download COMPLETE.</strong> Script (download_hrrr_for_swot.py) extracts 10-m wind (UGRD, VGRD, WIND), gust, friction velocity, 2-m temperature, and SST from HRRR f00 analysis for each SWOT overpass hour. <strong>132 NetCDF files (793 MB)</strong> covering May–Nov 2025. Stored locally on external SSD and uploaded to HPC at <code>wendian:/beegfs/sets/cee001/Kate/SWOT/HRRR/</code>. Mapping CSV (swot_to_hrrr_mapping.csv) links each SWOT overpass to nearest HRRR hour. CSVs at <code>/Volumes/Extreme SSD/SWOT/SWOT_Buoy PID0/</code>.</div>
     </div>
 
     <div class="finding" style="border-color: var(--amber);">
       <div class="finding-label" style="color: var(--amber);">NEXT — Mar 2026</div>
-      <div style="font-size:14px;">Ian: QC matched data (check outliers, rain/ice flags). Create scatter plots of SWOT vs buoy SWH (with and without beta correction). Kate: Run HRRR download script, provide WW3 model output for co-location. Begin Phase 4 analysis.</div>
+      <div style="font-size:14px;">Ian: QC matched data (check outliers, rain/ice flags). Create scatter plots of SWOT vs buoy SWH (with and without beta correction). Kate: Provide WW3 model output for co-location. Begin Phase 4 analysis — spatial validation, fetch-limited growth, gustiness crossover.</div>
     </div>
 
     <div class="finding" style="border-color: var(--amber);">
