@@ -382,9 +382,19 @@
       <div style="font-size:14px;"><strong>Kate: HRRR data download COMPLETE.</strong> Script (download_hrrr_for_swot.py) extracts 10-m wind (UGRD, VGRD, WIND), gust, friction velocity, 2-m temperature, and SST from HRRR f00 analysis for each SWOT overpass hour. <strong>132 NetCDF files (793 MB)</strong> covering May–Nov 2025. Stored locally on external SSD and uploaded to HPC at <code>wendian:/beegfs/sets/cee001/Kate/SWOT/HRRR/</code>. Mapping CSV (swot_to_hrrr_mapping.csv) links each SWOT overpass to nearest HRRR hour. CSVs at <code>/Volumes/Extreme SSD/SWOT/SWOT_Buoy PID0/</code>.</div>
     </div>
 
+    <div class="finding" style="border-color: var(--cyan);">
+      <div class="finding-label" style="color: var(--cyan);">KEY FINDING — Mar 2026</div>
+      <div style="font-size:14px;"><strong>SWOT underestimates SWH during storm conditions.</strong> WW3-SWOT spatial overlay during December 2025 storm shows WW3 predicting high Hs while SWOT measures much lower. Hypothesis: cloud/rain cover interferes with satellite Ka-band signal during storms, degrading SWH retrieval. Under calm/moderate conditions, SWOT and buoy data align well. Needs further investigation — classify passes by weather conditions.</div>
+    </div>
+
+    <div class="finding" style="border-color: var(--green);">
+      <div class="finding-label" style="color: var(--green);">COMPLETED — Mar 2026</div>
+      <div style="font-size:14px;"><strong>Data organization plan established.</strong> All SWOT data to be uploaded to wendian:/beegfs/sets/cee001/Kate/SWOT_Data/ organized by year (2023/2024/2025). Ian will mask terrain/land/small lakes, generate matched CSVs (ALL format) per year with quality flags, and create README. Two data versions: GDR0 (pre-2025, no beta correction) and PID0 (May 2025+, beta corrected). Beta correction ~0.1-0.2m — not drastic. Total data ~50-100 GB.</div>
+    </div>
+
     <div class="finding" style="border-color: var(--amber);">
       <div class="finding-label" style="color: var(--amber);">NEXT — Mar 2026</div>
-      <div style="font-size:14px;">Ian: QC matched data (check outliers, rain/ice flags). Create scatter plots of SWOT vs buoy SWH (with and without beta correction). Kate: Provide WW3 model output for co-location. Begin Phase 4 analysis — spatial validation, fetch-limited growth, gustiness crossover.</div>
+      <div style="font-size:14px;">Ian: Upload masked SWOT NetCDFs + per-year matched CSVs with quality flags to wendian. Kate: Log data metadata once CSVs received. Both: Begin Phase 4 analysis. Bia returns April 5 — have data organized by then.</div>
     </div>
 
     <div class="finding" style="border-color: var(--amber);">
@@ -410,6 +420,25 @@
 
 <!-- ==================== MEETINGS ==================== -->
 <div id="view-meetings" class="hidden">
+
+  <div class="meeting-item" style="border-color: var(--green);">
+    <div class="meeting-date">March 13, 2026</div>
+    <div class="meeting-title">Data Organization + Storm Finding + Website Demo</div>
+    <div class="meeting-summary">Ian showed HRRR vs SWOT wind comparisons and WW3-SWOT spatial overlay for December storm. <strong>Key finding: SWOT underestimates SWH during storms — hypothesis is cloud/rain interference with satellite signal.</strong> Under normal conditions SWOT aligns well with buoys. Kate demoed the shared project website. Agreed on full data organization plan for wendian. Beta correction (PID0) only ~0.1-0.2m difference. SWOT data is ~50-100 GB total. Two data versions: GDR0 (pre-2025) and PID0 (2025+, beta corrected).</div>
+    <div class="meeting-actions"><ul>
+      <li><strong>Ian:</strong> Upload masked/cleaned SWOT NetCDFs to wendian:/beegfs/sets/cee001/Kate/SWOT_Data/ (Oct 2023 – current)</li>
+      <li><strong>Ian:</strong> Organize by year — 2023_SWOT/, 2024_SWOT/, 2025_SWOT/ subfolders</li>
+      <li><strong>Ian:</strong> Mask out terrain/land/small lakes before uploading</li>
+      <li><strong>Ian:</strong> Generate matched CSVs for 2023, 2024, 2025 — ALL format, same columns as PID0</li>
+      <li><strong>Ian:</strong> Add quality flag column to matched CSVs</li>
+      <li><strong>Ian:</strong> Create README.md documenting data and processing steps</li>
+      <li><strong>Ian:</strong> Create misc/ folder for auxiliary files used by code</li>
+      <li><strong>Kate:</strong> Log SWOT data metadata on website once Ian provides CSVs</li>
+      <li><strong>Kate:</strong> Check Firebase backend for code upload storage</li>
+      <li><strong>Kate:</strong> Created wendian SWOT_Data/ folder</li>
+      <li><strong>Both:</strong> Next meeting Thursday with Eric</li>
+    </ul></div>
+  </div>
 
   <div class="meeting-item">
     <div class="meeting-date">October 29, 2025</div>
@@ -686,8 +715,25 @@
       <tr><th>Product</th><th>Resolution</th><th>Key Variables</th><th>Use For</th></tr>
       <tr><td>L2_HR_LakeSP</td><td>Varies</td><td>SWH (pre-computed), WSE</td><td>Primary SWH source for inland waters</td></tr>
       <tr><td>L2_HR_Raster</td><td>250m</td><td>WSE, sigma-naught</td><td>Roughness / Charnock analysis</td></tr>
-      <tr><td><strong>L2_LR_SSH_Expert (PID0)</strong></td><td>~2 km</td><td>swh_karin, swh_karin_corrected, sig0_karin, wind_speed_karin</td><td><strong>Current working product</strong> — used for all buoy matches</td></tr>
+      <tr><td><strong>L2_LR_SSH_Expert (PID0)</strong></td><td>~2 km</td><td>swh_karin, swh_karin_corrected, sig0_karin, wind_speed_karin</td><td><strong>Current working product</strong> — May 2025+ (beta corrected)</td></tr>
+      <tr><td>L2_LR_SSH_Expert (GDR0)</td><td>~2 km</td><td>swh_karin, sig0_karin, wind_speed_karin</td><td>Pre-2025 data (Oct 2023–Dec 2024, no beta correction)</td></tr>
       <tr><td>L2_LR_SSH_Windwave_D</td><td>~2 km</td><td>SSH, SWH, sigma-naught (corrected)</td><td>Version D with beta correction</td></tr>
+    </table>
+    <div style="font-size:12px;color:var(--dim);margin-top:8px;padding:8px;background:var(--bg);border-radius:6px;">
+      <strong>Beta correction impact:</strong> ~0.1–0.2m difference (not drastic). PID0 available May 2025+; earlier data is GDR0.<br>
+      <strong>Known issue:</strong> SWOT underestimates SWH during storms — possible cloud/rain interference with Ka-band signal.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Data Organization on Wendian</div>
+    <table class="data-table">
+      <tr><th>Path</th><th>Contents</th><th>Status</th></tr>
+      <tr><td><code>/beegfs/sets/cee001/Kate/SWOT_Data/2023_SWOT/</code></td><td>Masked SWOT NetCDFs + matched CSV (GDR0)</td><td style="color:var(--amber)">Ian uploading</td></tr>
+      <tr><td><code>/beegfs/sets/cee001/Kate/SWOT_Data/2024_SWOT/</code></td><td>Masked SWOT NetCDFs + matched CSV (GDR0)</td><td style="color:var(--amber)">Ian uploading</td></tr>
+      <tr><td><code>/beegfs/sets/cee001/Kate/SWOT_Data/2025_SWOT/</code></td><td>Masked SWOT NetCDFs + matched CSV (PID0)</td><td style="color:var(--amber)">Ian uploading</td></tr>
+      <tr><td><code>/beegfs/sets/cee001/Kate/SWOT/HRRR/</code></td><td>132 HRRR NetCDFs + mapping CSV</td><td style="color:var(--green)">Done</td></tr>
+      <tr><td><code>/beegfs/sets/cee001/Kate/GLWU_RUNS/work/</code></td><td>WW3 baselines (2023/2024/2025)</td><td style="color:var(--green)">Done</td></tr>
     </table>
   </div>
 
