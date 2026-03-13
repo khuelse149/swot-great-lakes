@@ -528,21 +528,25 @@
 <!-- ==================== CODE ==================== -->
 <div id="view-code" class="hidden">
   <div class="card">
-    <div class="card-title">Upload Code</div>
-    <div class="card-subtitle">Drag & drop Python files or paste code below. Stored in your browser.</div>
+    <div class="card-title">Code Registry</div>
+    <div class="card-subtitle">Log scripts with their path on wendian and a brief description. Code stays on HPC — this is just an index.</div>
 
-    <div class="drop-zone" id="code-drop-zone" onclick="document.getElementById('code-file-input').click()">
-      Drop .py / .ipynb / .txt files here, or click to browse
-      <input type="file" id="code-file-input" accept=".py,.ipynb,.txt,.json,.csv,.sh" multiple>
-    </div>
-
-    <div style="margin-bottom: 16px;">
-      <div class="add-form" id="paste-form">
-        <label>Or paste code directly:</label>
-        <input type="text" id="paste-name" placeholder="Filename (e.g. download_swot.py)">
-        <textarea id="paste-code" placeholder="Paste your code here..." style="font-family:'SF Mono','Fira Code',monospace; font-size:12px; min-height:120px;"></textarea>
-        <button class="btn" onclick="saveCodeFromPaste()">Save Code</button>
+    <div class="add-form">
+      <div class="form-row">
+        <div>
+          <label>Script name</label>
+          <input type="text" id="code-name" placeholder="e.g. swot_buoy_match.py">
+        </div>
+        <div>
+          <label>Author</label>
+          <input type="text" id="code-author" placeholder="e.g. Ian">
+        </div>
       </div>
+      <label>Path on wendian (or local)</label>
+      <input type="text" id="code-path" placeholder="e.g. /beegfs/sets/cee001/Kate/SWOT_Data/scripts/swot_buoy_match.py">
+      <label>Description — what does this script do?</label>
+      <textarea id="code-desc" placeholder="Briefly describe inputs, outputs, and what the script does..."></textarea>
+      <button class="btn" onclick="addCodeEntry()">Add Script</button>
     </div>
 
     <div id="code-list"></div>
@@ -908,66 +912,48 @@ db.ref('checks').on('value', snap => {
 });
 
 // ============================================================
-// CODE TAB — synced via Firebase
+// CODE TAB — synced via Firebase (path + description registry)
 // ============================================================
 let codeFiles = [];
 
 function renderCodeList() {
   const el = document.getElementById('code-list');
   if (!codeFiles.length) {
-    el.innerHTML = '<p style="font-size:13px;color:var(--muted);text-align:center;padding:24px;">No code uploaded yet. Drop a file or paste code above.</p>';
+    el.innerHTML = '<p style="font-size:13px;color:var(--muted);text-align:center;padding:24px;">No scripts registered yet. Add one above.</p>';
     return;
   }
   el.innerHTML = codeFiles.map((f, i) => `
-    <div class="code-entry">
-      <div class="code-entry-header" onclick="toggleCode(${i})">
-        <div>
-          <span class="code-entry-name">${esc(f.name)}</span>
-          <span class="code-entry-meta" style="margin-left:12px;">${f.lines || '?'} lines &middot; ${f.date || ''} &middot; ${esc(f.author || '')}</span>
-        </div>
-        <div>
-          <button class="btn btn-outline" style="font-size:11px;padding:2px 10px;margin-right:4px;" onclick="event.stopPropagation();copyCode(${i})">Copy</button>
-          <button class="delete-btn" onclick="event.stopPropagation();deleteCode(${i})" title="Delete">&times;</button>
-        </div>
+    <div class="data-entry">
+      <div class="data-entry-icon" style="background:#06b6d422;font-size:14px;">&#128196;</div>
+      <div class="data-entry-info">
+        <div class="data-entry-name">${esc(f.name)}</div>
+        <div style="font-size:12px;color:var(--cyan);font-family:'SF Mono','Fira Code',monospace;margin:2px 0;word-break:break-all;">${esc(f.path)}</div>
+        <div class="data-entry-desc">${esc(f.desc)}</div>
+        <div class="data-entry-size">${esc(f.author || '')} &middot; ${f.date || ''}</div>
       </div>
-      <div class="code-entry-body hidden" id="code-body-${i}">
-        <pre>${esc(f.content)}</pre>
-      </div>
+      <button class="delete-btn" onclick="deleteCode(${i})" title="Delete">&times;</button>
     </div>
   `).join('');
 }
 
-function toggleCode(i) {
-  document.getElementById('code-body-' + i).classList.toggle('hidden');
-}
-
-function copyCode(i) {
-  navigator.clipboard.writeText(codeFiles[i].content);
-  showSync('Copied!');
+function addCodeEntry() {
+  const name = document.getElementById('code-name').value.trim();
+  const path = document.getElementById('code-path').value.trim();
+  const desc = document.getElementById('code-desc').value.trim();
+  const author = document.getElementById('code-author').value.trim();
+  if (!name) { alert('Enter a script name.'); return; }
+  if (!path) { alert('Enter the file path.'); return; }
+  codeFiles.unshift({ name, path, desc, author, date: new Date().toISOString().slice(0, 10) });
+  db.ref('code').set(codeFiles);
+  ['code-name', 'code-path', 'code-desc', 'code-author'].forEach(id => document.getElementById(id).value = '');
+  showSync('Script registered');
 }
 
 function deleteCode(i) {
-  if (!confirm('Delete this file?')) return;
+  if (!confirm('Remove this entry?')) return;
   codeFiles.splice(i, 1);
   db.ref('code').set(codeFiles);
-  showSync('Deleted');
-}
-
-function addCodeFile(name, content, author) {
-  const lines = content.split('\n').length;
-  codeFiles.unshift({ name, content, lines, date: new Date().toISOString().slice(0, 10), author: author || '' });
-  if (codeFiles.length > 50) codeFiles.pop();
-  db.ref('code').set(codeFiles);
-  showSync('Code saved');
-}
-
-function saveCodeFromPaste() {
-  const name = document.getElementById('paste-name').value.trim() || 'untitled.py';
-  const code = document.getElementById('paste-code').value;
-  if (!code.trim()) return;
-  addCodeFile(name, code, '');
-  document.getElementById('paste-name').value = '';
-  document.getElementById('paste-code').value = '';
+  showSync('Removed');
 }
 
 // Real-time listener for code
@@ -976,31 +962,6 @@ db.ref('code').on('value', snap => {
   renderCodeList();
   showSync('Synced');
 });
-
-// Drag and drop for code
-const codeDropZone = document.getElementById('code-drop-zone');
-codeDropZone.addEventListener('dragover', e => { e.preventDefault(); codeDropZone.classList.add('drag-over'); });
-codeDropZone.addEventListener('dragleave', () => codeDropZone.classList.remove('drag-over'));
-codeDropZone.addEventListener('drop', e => {
-  e.preventDefault(); codeDropZone.classList.remove('drag-over');
-  handleCodeFiles(e.dataTransfer.files);
-});
-document.getElementById('code-file-input').addEventListener('change', e => {
-  handleCodeFiles(e.target.files);
-  e.target.value = '';
-});
-
-function handleCodeFiles(fileList) {
-  Array.from(fileList).forEach(file => {
-    if (file.size > 500000) {
-      alert(file.name + ' is too large (>500KB). Only code files are stored.');
-      return;
-    }
-    const reader = new FileReader();
-    reader.onload = () => addCodeFile(file.name, reader.result, '');
-    reader.readAsText(file);
-  });
-}
 
 // ============================================================
 // DATA TABS — three categories, all synced via Firebase
