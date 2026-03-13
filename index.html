@@ -266,7 +266,11 @@
       <li><input type="checkbox" onchange="saveCheck(this)"><span>✅ For each pass, find closest SWOT pixel to each buoy — <strong>DONE: 15 buoys, 244 matches, 3 strategies (ALL/AVG/CLOSEST)</strong></span><span class="assignee assignee-ian">Ian</span></li>
       <li><input type="checkbox" onchange="saveCheck(this)"><span>✅ Pull buoy SWH within overpass window — <strong>DONE + added buoy wind speed/direction/components</strong></span><span class="assignee assignee-ian">Ian</span></li>
       <li><input type="checkbox" onchange="saveCheck(this)"><span>✅ <strong>Deliverable:</strong> 3 matched CSVs delivered: SWOT_PID0_BUOY_MATCHES_ALL (1162 rows), _AVERAGE (244), _CLOSEST (244). Includes swh_karin, swh_karin_corrected (beta), sig0_karin, buoy wind</span><span class="assignee assignee-ian">Ian</span></li>
-      <li><input type="checkbox" onchange="saveCheck(this)"><span>Kate provides WW3 model output (3-hourly) for co-location</span><span class="assignee assignee-kate">Kate</span></li>
+      <li><input type="checkbox" onchange="saveCheck(this)"><span>✅ WW3 model output AVAILABLE on HPC — <strong>3 years of daily NetCDFs:</strong><br>
+        <code style="font-size:11px">wendian:/beegfs/sets/cee001/Kate/GLWU_RUNS/work/2023_BASELINE/2023_Results/</code> (Nov 20–Dec 31, 2023)<br>
+        <code style="font-size:11px">wendian:/beegfs/sets/cee001/Kate/GLWU_RUNS/work/2024_BASELINE/2024_Results/</code> (full 2024)<br>
+        <code style="font-size:11px">wendian:/beegfs/sets/cee001/Kate/GLWU_RUNS/work/2025_BASELINE/2025_Results/</code> (full 2025)<br>
+        Naming: <code>ww3.YYYYMMDD.nc</code> + monthly bulk (<code>ww3_bulk.YYYYMM_tab.nc</code>) + spectral (<code>ww3_spec.YYYYMM_spec.nc</code>). Grid/namelist details TBD.</span><span class="assignee assignee-kate">Kate</span></li>
       <li><input type="checkbox" onchange="saveCheck(this)"><span>Regrid SWOT onto WW3 GLWU unstructured grid (nearest-neighbor)</span><span class="assignee assignee-both">Both</span></li>
       <li><input type="checkbox" onchange="saveCheck(this)"><span>Compute spatial difference maps: WW3_Hs - SWOT_SWH per pass</span><span class="assignee assignee-both">Both</span></li>
       <li><input type="checkbox" onchange="saveCheck(this)"><span><strong>Deliverable:</strong> NetCDFs of matched SWOT-WW3 fields + difference maps</span><span class="assignee assignee-both">Both</span></li>
@@ -682,23 +686,30 @@
       <tr><th>Product</th><th>Resolution</th><th>Key Variables</th><th>Use For</th></tr>
       <tr><td>L2_HR_LakeSP</td><td>Varies</td><td>SWH (pre-computed), WSE</td><td>Primary SWH source for inland waters</td></tr>
       <tr><td>L2_HR_Raster</td><td>250m</td><td>WSE, sigma-naught</td><td>Roughness / Charnock analysis</td></tr>
-      <tr><td>L2_LR_SSH</td><td>~2 km</td><td>SSH, SWH, sigma-naught</td><td>Ian's current working product</td></tr>
+      <tr><td><strong>L2_LR_SSH_Expert (PID0)</strong></td><td>~2 km</td><td>swh_karin, swh_karin_corrected, sig0_karin, wind_speed_karin</td><td><strong>Current working product</strong> — used for all buoy matches</td></tr>
       <tr><td>L2_LR_SSH_Windwave_D</td><td>~2 km</td><td>SSH, SWH, sigma-naught (corrected)</td><td>Version D with beta correction</td></tr>
     </table>
   </div>
 
   <div class="card">
-    <div class="card-title">Buoy Locations</div>
+    <div class="card-title">Buoy Locations <span style="font-size:12px;color:var(--muted);font-weight:400;">(15 matched in PID0 data)</span></div>
     <table class="data-table">
       <tr><th>ID</th><th>Lake</th><th>Type</th><th>Notes</th></tr>
-      <tr><td>45002</td><td>Michigan (N)</td><td>NDBC</td><td>Permanent</td></tr>
-      <tr><td>45003</td><td>Huron (N)</td><td>NDBC</td><td>Permanent</td></tr>
+      <tr><td>45001</td><td>Superior (mid)</td><td>NDBC</td><td>Matched in PID0</td></tr>
+      <tr><td>45002</td><td>Michigan (N)</td><td>NDBC</td><td>Matched in PID0</td></tr>
+      <tr><td>45003</td><td>Huron (N)</td><td>NDBC</td><td>Matched in PID0</td></tr>
       <tr><td>45004</td><td>Superior (E)</td><td>NDBC</td><td>Correct buoy for Superior (NOT 45006)</td></tr>
-      <tr><td>45007</td><td>Michigan (S)</td><td>NDBC</td><td>Permanent</td></tr>
-      <tr><td>45008</td><td>Huron (S)</td><td>NDBC</td><td>Permanent</td></tr>
-      <tr><td>45212</td><td>Huron</td><td>Spotter</td><td>Winter deployment — verify coordinates</td></tr>
-      <tr><td>45213</td><td>Superior</td><td>Spotter</td><td>Winter deployment — verify coordinates</td></tr>
-      <tr><td>45214</td><td>Michigan</td><td>Spotter</td><td>Winter deployment — verify coordinates</td></tr>
+      <tr><td>45005</td><td>Erie</td><td>NDBC</td><td>Matched in PID0</td></tr>
+      <tr><td>45006</td><td>Superior (W)</td><td>NDBC</td><td>Matched in PID0</td></tr>
+      <tr><td>45007</td><td>Michigan (S)</td><td>NDBC</td><td>Matched in PID0</td></tr>
+      <tr><td>45008</td><td>Huron (S)</td><td>NDBC</td><td>Matched in PID0</td></tr>
+      <tr><td>45012</td><td>Ontario</td><td>NDBC</td><td>Matched in PID0</td></tr>
+      <tr><td>45194</td><td>Erie</td><td>NDBC</td><td>Matched in PID0</td></tr>
+      <tr><td>45211</td><td>Superior</td><td>Spotter</td><td>Matched in PID0</td></tr>
+      <tr><td>45212</td><td>Huron</td><td>Spotter</td><td>Verify coordinates</td></tr>
+      <tr><td>45213</td><td>Superior</td><td>Spotter</td><td>Verify coordinates</td></tr>
+      <tr><td>45214</td><td>Michigan</td><td>Spotter</td><td>Verify coordinates</td></tr>
+      <tr><td>45215</td><td>Michigan</td><td>Spotter</td><td>Matched in PID0</td></tr>
     </table>
   </div>
 
@@ -733,8 +744,16 @@
       <li><strong>Data source:</strong> NASA PO.DAAC via earthaccess / podaac-data-downloader</li>
       <li><strong>Auth:</strong> NASA Earthdata login</li>
       <li><strong>Ian's notebooks:</strong> GitHub (Jupyter)</li>
-      <li><strong>HRRR winds:</strong> Kate's archive on HPC</li>
-      <li><strong>WW3 model output:</strong> Kate's external HD (downloading now)</li>
+      <li><strong>HRRR winds (SWOT overpasses):</strong> 132 NetCDFs — <code>wendian:/beegfs/sets/cee001/Kate/SWOT/HRRR/</code> + <code>/Volumes/Extreme SSD/SWOT/HRRR/</code></li>
+      <li><strong>SWOT-Buoy matched CSVs:</strong> <code>/Volumes/Extreme SSD/SWOT/SWOT_Buoy PID0/</code></li>
+      <li><strong>WW3 model output (HPC):</strong>
+        <ul style="margin:4px 0 0 0;padding-left:16px;font-size:13px;">
+          <li><code>wendian:.../work/2023_BASELINE/2023_Results/</code> — Nov 20–Dec 31, 2023 (42 days)</li>
+          <li><code>wendian:.../work/2024_BASELINE/2024_Results/</code> — full 2024 (366 days)</li>
+          <li><code>wendian:.../work/2025_BASELINE/2025_Results/</code> — full 2025 (365 days)</li>
+        </ul>
+        <span style="font-size:12px;color:var(--muted)">Base: <code>/beegfs/sets/cee001/Kate/GLWU_RUNS/work/</code> | Files: <code>ww3.YYYYMMDD.nc</code> (daily), <code>ww3_bulk.YYYYMM_tab.nc</code> (monthly bulk), <code>ww3_spec.YYYYMM_spec.nc</code> (spectral). Grid/namelist details coming later.</span>
+      </li>
       <li><strong>Contact:</strong> Alejandro (via Bia) for coastal corrections</li>
     </ul>
   </div>
