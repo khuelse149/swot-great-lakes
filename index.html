@@ -196,8 +196,7 @@
 </header>
 
 <nav id="nav">
-  <button class="active" data-view="tasks">Tasks</button>
-  <button data-view="history">What We've Done</button>
+  <button class="active" data-view="history">What We've Done</button>
   <button data-view="meetings">Meeting Notes</button>
   <button data-view="directions">Research Directions</button>
   <button data-view="code">Code</button>
@@ -205,129 +204,8 @@
   <button data-view="reference">Reference</button>
 </nav>
 
-<!-- ==================== TASKS ==================== -->
-<div id="view-tasks">
-
-  <div class="stat-row">
-    <div class="stat-box"><div class="stat-num">~90</div><div class="stat-label">Viable passes/year</div></div>
-    <div class="stat-box"><div class="stat-num">~225</div><div class="stat-label">Total passes (2023-2026)</div></div>
-    <div class="stat-box"><div class="stat-num">3</div><div class="stat-label">Research directions</div></div>
-    <div class="stat-box"><div class="stat-num">244</div><div class="stat-label">Pass-buoy matches</div></div>
-    <div class="stat-box"><div class="stat-num">15</div><div class="stat-label">Buoys matched</div></div>
-  </div>
-
-  <!-- Phase 1 -->
-  <div class="phase-header" onclick="togglePhase(1)">
-    <span class="phase-num">P1</span>
-    <span class="phase-title">Data Access & Inventory</span>
-    <span class="phase-status tag" style="background:#22c55e33;color:var(--green)">DONE</span>
-  </div>
-  <div class="phase-body" id="phase-1">
-    <ul class="task-list">
-      <li><input type="checkbox" onchange="saveCheck(this)"><span>Create NASA Earthdata login (earthdata.nasa.gov)</span><span class="assignee assignee-ian">Ian</span></li>
-      <li><input type="checkbox" onchange="saveCheck(this)"><span>Install <code>earthaccess</code> Python library</span><span class="assignee assignee-ian">Ian</span></li>
-      <li><input type="checkbox" onchange="saveCheck(this)"><span>Install <code>podaac-data-downloader</code> as backup</span><span class="assignee assignee-ian">Ian</span></li>
-      <li><input type="checkbox" onchange="saveCheck(this)"><span>Identify target product: <strong>L2_LR_SSH_Expert (PID0)</strong> used for SWH + sigma-naught <em>(updated from L2_HR_LakeSP)</em></span><span class="assignee assignee-ian">Ian</span></li>
-      <li><input type="checkbox" onchange="saveCheck(this)"><span><strong>Deliverable:</strong> 1-page summary table of product variables, resolution, and what each means</span><span class="assignee assignee-ian">Ian</span></li>
-      <li><input type="checkbox" onchange="saveCheck(this)"><span>Query all SWOT passes intersecting GL bounding box (41N-49N, 92W-76W)</span><span class="assignee assignee-ian">Ian</span></li>
-      <li><input type="checkbox" onchange="saveCheck(this)"><span>For each pass: record date, time, orbit number, which lake(s), ascending/descending</span><span class="assignee assignee-ian">Ian</span></li>
-      <li><input type="checkbox" onchange="saveCheck(this)"><span>Flag ice-free vs ice-covered (May-Nov = ice-free, or use NIC ice data)</span><span class="assignee assignee-ian">Ian</span></li>
-      <li><input type="checkbox" onchange="saveCheck(this)"><span><strong>Deliverable:</strong> CSV catalog of every GL pass since SWOT science phase (~Apr 2023)</span><span class="assignee assignee-ian">Ian</span></li>
-    </ul>
-  </div>
-
-  <!-- Phase 2 -->
-  <div class="phase-header" onclick="togglePhase(2)">
-    <span class="phase-num">P2</span>
-    <span class="phase-title">Download & Quality Filter</span>
-    <span class="phase-status tag" style="background:#22c55e33;color:var(--green)">DONE</span>
-  </div>
-  <div class="phase-body hidden" id="phase-2">
-    <ul class="task-list">
-      <li><input type="checkbox" onchange="saveCheck(this)"><span>Download all ice-free GL passes (L2_HR_LakeSP for SWH)</span><span class="assignee assignee-ian">Ian</span></li>
-      <li><input type="checkbox" onchange="saveCheck(this)"><span>Organize by lake and date: <code>SWOT_data/{lake}/{YYYYMMDD}/</code></span><span class="assignee assignee-ian">Ian</span></li>
-      <li><input type="checkbox" onchange="saveCheck(this)"><span>Read SWOT quality flags — filter out rain, low coherence, edge effects</span><span class="assignee assignee-ian">Ian</span></li>
-      <li><input type="checkbox" onchange="saveCheck(this)"><span>Per pass: compute total pixels, good-quality pixels, % coverage per lake</span><span class="assignee assignee-ian">Ian</span></li>
-      <li><input type="checkbox" onchange="saveCheck(this)"><span>Drop passes with &lt;30% good coverage</span><span class="assignee assignee-ian">Ian</span></li>
-      <li><input type="checkbox" onchange="saveCheck(this)"><span><strong>Deliverable:</strong> Updated catalog CSV with quality stats — "X of Y passes usable per lake"</span><span class="assignee assignee-ian">Ian</span></li>
-      <li><input type="checkbox" onchange="saveCheck(this)"><span>Quick-look plots: SWH on lake map per pass (color 0-4 m, overlay shoreline)</span><span class="assignee assignee-ian">Ian</span></li>
-      <li><input type="checkbox" onchange="saveCheck(this)"><span><strong>Deliverable:</strong> Folder of quick-look PNGs (one per pass)</span><span class="assignee assignee-ian">Ian</span></li>
-    </ul>
-  </div>
-
-  <!-- Phase 3 -->
-  <div class="phase-header" onclick="togglePhase(3)">
-    <span class="phase-num">P3</span>
-    <span class="phase-title">Co-location with Model & Buoys</span>
-    <span class="phase-status tag" style="background:#f59e0b33;color:var(--amber)">IN PROGRESS</span>
-  </div>
-  <div class="phase-body hidden" id="phase-3">
-    <ul class="task-list">
-      <li><input type="checkbox" onchange="saveCheck(this)"><span>✅ For each pass, find closest SWOT pixel to each buoy — <strong>DONE: 15 buoys, 244 matches, 3 strategies (ALL/AVG/CLOSEST)</strong></span><span class="assignee assignee-ian">Ian</span></li>
-      <li><input type="checkbox" onchange="saveCheck(this)"><span>✅ Pull buoy SWH within overpass window — <strong>DONE + added buoy wind speed/direction/components</strong></span><span class="assignee assignee-ian">Ian</span></li>
-      <li><input type="checkbox" onchange="saveCheck(this)"><span>✅ <strong>Deliverable:</strong> 3 matched CSVs delivered: SWOT_PID0_BUOY_MATCHES_ALL (1162 rows), _AVERAGE (244), _CLOSEST (244). Includes swh_karin, swh_karin_corrected (beta), sig0_karin, buoy wind</span><span class="assignee assignee-ian">Ian</span></li>
-      <li><input type="checkbox" onchange="saveCheck(this)"><span>✅ WW3 model output AVAILABLE on HPC — <strong>3 years of daily NetCDFs:</strong><br>
-        <code style="font-size:11px">wendian:/beegfs/sets/cee001/Kate/GLWU_RUNS/work/2023_BASELINE/2023_Results/</code> (Nov 20–Dec 31, 2023)<br>
-        <code style="font-size:11px">wendian:/beegfs/sets/cee001/Kate/GLWU_RUNS/work/2024_BASELINE/2024_Results/</code> (full 2024)<br>
-        <code style="font-size:11px">wendian:/beegfs/sets/cee001/Kate/GLWU_RUNS/work/2025_BASELINE/2025_Results/</code> (full 2025)<br>
-        Naming: <code>ww3.YYYYMMDD.nc</code> + monthly bulk (<code>ww3_bulk.YYYYMM_tab.nc</code>) + spectral (<code>ww3_spec.YYYYMM_spec.nc</code>). Grid/namelist details TBD.</span><span class="assignee assignee-kate">Kate</span></li>
-      <li><input type="checkbox" onchange="saveCheck(this)"><span>Regrid SWOT onto WW3 GLWU unstructured grid (nearest-neighbor)</span><span class="assignee assignee-both">Both</span></li>
-      <li><input type="checkbox" onchange="saveCheck(this)"><span>Compute spatial difference maps: WW3_Hs - SWOT_SWH per pass</span><span class="assignee assignee-both">Both</span></li>
-      <li><input type="checkbox" onchange="saveCheck(this)"><span><strong>Deliverable:</strong> NetCDFs of matched SWOT-WW3 fields + difference maps</span><span class="assignee assignee-both">Both</span></li>
-      <li><input type="checkbox" onchange="saveCheck(this)"><span>✅ HRRR download script written (download_hrrr_for_swot.py) — <strong>DONE: extracts UGRD, VGRD, WIND, GUST, FRICV, TMP, SST for each overpass</strong></span><span class="assignee assignee-kate">Kate</span></li>
-      <li><input type="checkbox" onchange="saveCheck(this)"><span>✅ HRRR data downloaded — <strong>DONE: 132 NetCDF files (793 MB), May–Nov 2025. Local: /Volumes/Extreme SSD/SWOT/HRRR/ | HPC: wendian:/beegfs/sets/cee001/Kate/SWOT/HRRR/</strong></span><span class="assignee assignee-kate">Kate</span></li>
-      <li><input type="checkbox" onchange="saveCheck(this)"><span>✅ SWOT-to-HRRR mapping CSV created (swot_to_hrrr_mapping.csv) — links each SWOT overpass to its nearest HRRR analysis hour</span><span class="assignee assignee-kate">Kate</span></li>
-    </ul>
-  </div>
-
-  <!-- Phase 4 -->
-  <div class="phase-header" onclick="togglePhase(4)">
-    <span class="phase-num">P4</span>
-    <span class="phase-title">Analysis-Ready Datasets</span>
-    <span class="phase-status tag" style="background:#8b5cf633;color:var(--purple)">WEEK 4-5</span>
-  </div>
-  <div class="phase-body hidden" id="phase-4">
-    <p style="font-size:13px;color:var(--dim);margin-bottom:12px;font-weight:600;">Direction 1: Spatial Validation (SWOT vs WW3)</p>
-    <ul class="task-list">
-      <li><input type="checkbox" onchange="saveCheck(this)"><span>Per-pass spatial bias stats: mean bias, RMSE, correlation (SWOT vs WW3)</span><span class="assignee assignee-both">Both</span></li>
-      <li><input type="checkbox" onchange="saveCheck(this)"><span>Bin bias by distance from shore (0-10 km, 10-30 km, 30+ km)</span><span class="assignee assignee-both">Both</span></li>
-      <li><input type="checkbox" onchange="saveCheck(this)"><span><strong>Deliverable:</strong> Composite spatial bias map per lake + summary stats table</span><span class="assignee assignee-both">Both</span></li>
-    </ul>
-    <p style="font-size:13px;color:var(--dim);margin:16px 0 12px;font-weight:600;">Direction 2: Fetch-Limited Growth (observed from space)</p>
-    <ul class="task-list">
-      <li><input type="checkbox" onchange="saveCheck(this)"><span>Filter passes with steady west-to-east HRRR wind (+/-30 deg), speed &gt;8 m/s</span><span class="assignee assignee-kate">Kate</span></li>
-      <li><input type="checkbox" onchange="saveCheck(this)"><span>Extract SWH along Michigan west-east transect from SWOT data</span><span class="assignee assignee-ian">Ian</span></li>
-      <li><input type="checkbox" onchange="saveCheck(this)"><span>Plot SWH vs fetch distance — check for power law</span><span class="assignee assignee-both">Both</span></li>
-      <li><input type="checkbox" onchange="saveCheck(this)"><span><strong>Deliverable:</strong> Fetch-growth scatter plots from SWOT, overlaid with WW3 baseline curves</span><span class="assignee assignee-both">Both</span></li>
-    </ul>
-    <p style="font-size:13px;color:var(--dim);margin:16px 0 12px;font-weight:600;">Direction 3: Gustiness Crossover Verification</p>
-    <ul class="task-list">
-      <li><input type="checkbox" onchange="saveCheck(this)"><span>Classify each pass by gustiness: gust factor from HRRR (max/mean wind in +/-3h window)</span><span class="assignee assignee-kate">Kate</span></li>
-      <li><input type="checkbox" onchange="saveCheck(this)"><span>Split passes: "gusty" (GF &gt; 1.3) vs "steady" (GF &lt; 1.15)</span><span class="assignee assignee-kate">Kate</span></li>
-      <li><input type="checkbox" onchange="saveCheck(this)"><span>Compare mean SWH spatial patterns — focus on western Michigan shore</span><span class="assignee assignee-both">Both</span></li>
-      <li><input type="checkbox" onchange="saveCheck(this)"><span><strong>Deliverable:</strong> Composite SWH maps for gusty vs steady + difference map</span><span class="assignee assignee-both">Both</span></li>
-    </ul>
-  </div>
-
-  <!-- Phase 5 -->
-  <div class="phase-header" onclick="togglePhase(5)">
-    <span class="phase-num">P5</span>
-    <span class="phase-title">Future / Stretch Goals</span>
-    <span class="phase-status tag" style="background:#33415533;color:var(--muted)">LATER</span>
-  </div>
-  <div class="phase-body hidden" id="phase-5">
-    <ul class="task-list">
-      <li><input type="checkbox" onchange="saveCheck(this)"><span>Extract sigma-naught from L2_HR_Raster — build observed roughness-to-Charnock relationships</span><span class="assignee assignee-both">Both</span></li>
-      <li><input type="checkbox" onchange="saveCheck(this)"><span>Compare SWOT-derived Charnock against WW3 alpha=0.033 vs COARE alpha=0.011</span><span class="assignee assignee-kate">Kate</span></li>
-      <li><input type="checkbox" onchange="saveCheck(this)"><span>Cross-reference top-5 storm events with SWOT pass timing</span><span class="assignee assignee-both">Both</span></li>
-      <li><input type="checkbox" onchange="saveCheck(this)"><span>Version D data download (SWOT_L2_LR_SSH_Windwave_D, May 2025+) — improved sigma-naught</span><span class="assignee assignee-ian">Ian</span></li>
-      <li><input type="checkbox" onchange="saveCheck(this)"><span>Contact Alejandro for coastal corrections on selected passes</span><span class="assignee assignee-kate">Kate</span></li>
-    </ul>
-  </div>
-</div>
-
 <!-- ==================== HISTORY ==================== -->
-<div id="view-history" class="hidden">
+<div id="view-history">
   <div class="card">
     <div class="card-title">Work Completed So Far</div>
     <div class="card-subtitle">Chronological summary of all SWOT-related work from Oct 2025 to present</div>
@@ -849,7 +727,7 @@ let suppressWrite = { checks: false, code: false, data: false };
 
 document.getElementById('update-date').textContent = 'Updated ' + new Date().toISOString().slice(0,10);
 
-const ALL_VIEWS = ['tasks','history','meetings','directions','code','data','reference'];
+const ALL_VIEWS = ['history','meetings','directions','code','data','reference'];
 
 // Nav
 document.getElementById('nav').addEventListener('click', e => {
@@ -1128,3 +1006,4 @@ db.ref('.info/connected').on('value', snap => {
 </script>
 </body>
 </html>
+
