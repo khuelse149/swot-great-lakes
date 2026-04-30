@@ -298,6 +298,30 @@
 <!-- ==================== MEETINGS ==================== -->
 <div id="view-meetings" class="hidden">
 
+  <div class="meeting-item" style="border-color: var(--blue);">
+    <div class="meeting-date">March 19, 2026</div>
+    <div class="meeting-title">SWOT Data Upload Complete + Spring Break Planning</div>
+    <div class="meeting-summary">Ian completed the full SWOT data upload to wendian, organized by year (2023–2026) under Kate's directory with raw/ and processed/ subfolders. Processed data has Great Lakes mask applied and lat/lon converted from 0–360 to -180–180. PGD0 (pre-2025) is uncorrected; PID0 (2026) is beta-corrected with a "corrected" suffix. Ian also uploaded the buoy validation set, HRRR wind, and WaveWatch outputs he was using. Enhanced CSVs for every year now include Hs and wind quality flags, cycle and pass numbers, and ascending/descending orbit classification — <strong>no ascending passes were identified over the Great Lakes</strong> (orbit direction inferred from start/end latitude: ~+77° start → descending). Ian is still cleaning code before uploading and will add lake-mask polygon resources and per-dataset READMEs. Discussed next-semester analysis directions: replace the month-based ice proxy with actual satellite ice-coverage data, investigate cloud/storm interference on SWOT signal, follow up with Alejandro on coastal corrections, and dig into σ₀ surface roughness. Ian graduates mid-May 2026; Bia returns April 5.</div>
+    <div class="meeting-actions"><ul>
+      <li><strong>Ian:</strong> chmod 777 on his wendian directory so Kate can access all files</li>
+      <li><strong>Ian:</strong> upload code and all resources (lake-mask polygons, etc.) after cleanup</li>
+      <li><strong>Ian:</strong> README files documenting processing steps for each dataset</li>
+      <li><strong>Kate:</strong> explore uploaded SWOT data over spring break</li>
+      <li><strong>Both:</strong> email Alejandro about beta correction for pre-2025 SWOT data</li>
+      <li><strong>Kate:</strong> plan remaining collaboration timeline over spring break</li>
+      <li><strong>Both:</strong> discuss MRF end-of-semester poster (validation-focused)</li>
+    </ul></div>
+    <div style="margin-top:10px; padding-top:8px; border-top:1px solid var(--border); font-size:13px;">
+      <strong style="color:var(--cyan);">Future analysis directions:</strong> ice-coverage cross-correlation (replace month proxy with satellite ice obs — data on wendian or uploadable); storm/cloud interference on SWOT (less impact than SAR, but worth checking); Alejandro's coastal correction algorithms (related to the anomalous coastal-region results previously seen); σ₀ surface roughness — Kate to prioritize SWOT work next semester.
+    </div>
+    <div style="margin-top:10px; font-size:13px;">
+      <strong style="color:var(--cyan);">Timeline &amp; logistics:</strong> Ian in Costa Rica for spring break · Bia back April 5 (summer plans TBD) · Ian graduates mid-May. <strong>Next meeting: Tuesday April 1, 12:30 PM, in-person at Kate's Chavez office.</strong>
+    </div>
+    <div style="margin-top:10px; font-size:13px;">
+      <strong style="color:var(--cyan);">MRF poster:</strong> Ian needs an end-of-semester poster for the MRF program. Focus on validation results (the MRF project has "validating" in its name) rather than acquisition or algorithms. Kate offered design and layout help.
+    </div>
+  </div>
+
   <div class="meeting-item" style="border-color: var(--green);">
     <div class="meeting-date">March 13, 2026</div>
     <div class="meeting-title">Data Organization + Storm Finding + Website Demo</div>
