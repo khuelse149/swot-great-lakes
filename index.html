@@ -198,7 +198,6 @@
 <nav id="nav">
   <button class="active" data-view="history">What We've Done</button>
   <button data-view="meetings">Meeting Notes</button>
-  <button data-view="directions">Research Directions</button>
   <button data-view="code">Code</button>
   <button data-view="data">Data</button>
   <button data-view="reference">Reference</button>
@@ -370,37 +369,6 @@
     </ul></div>
   </div>
 
-</div>
-
-<!-- ==================== DIRECTIONS ==================== -->
-<div id="view-directions" class="hidden">
-  <div class="direction-card">
-    <div class="direction-num">1</div>
-    <div class="direction-title">Spatial Validation of WW3</div>
-    <div class="direction-desc">
-      <p>Buoys give point comparisons. SWOT gives 2D SWH maps that can be directly overlaid on WW3 gridded output. Produce spatial bias maps (model - SWOT) instead of just bias at 5-8 buoy locations.</p>
-      <p style="margin-top:8px;"><strong>Key question:</strong> Is the +0.28 m bias uniform or does it have spatial structure (fetch-dependent? nearshore vs offshore)?</p>
-      <p style="margin-top:8px;color:var(--blue);font-weight:600;">Connects to: Winter Validation project</p>
-    </div>
-  </div>
-  <div class="direction-card">
-    <div class="direction-num">2</div>
-    <div class="direction-title">Satellite-Observed Fetch-Limited Growth</div>
-    <div class="direction-desc">
-      <p>Kate's gustiness work found C(fetch) varies 6x along a Michigan transect — but that's all model-derived. SWOT can provide <strong>observed</strong> along-fetch SWH profiles. Pick passes where wind is roughly cross-swath to get empirical fetch-growth curves.</p>
-      <p style="margin-top:8px;"><strong>Potential first:</strong> First satellite-observed fetch-limited growth curves in the Great Lakes.</p>
-      <p style="margin-top:8px;color:var(--purple);font-weight:600;">Connects to: Gustiness project</p>
-    </div>
-  </div>
-  <div class="direction-card">
-    <div class="direction-num">3</div>
-    <div class="direction-title">Gustiness Crossover Spatial Verification</div>
-    <div class="direction-desc">
-      <p>Finding 3 (negative enhancement at short fetch / western shore) is currently model + limited buoy evidence. Classify SWOT passes by gustiness using HRRR, then check whether spatial SWH patterns near the upwind shore match model predictions.</p>
-      <p style="margin-top:8px;"><strong>Key question:</strong> Do gusty conditions show suppressed SWH at short fetch compared to steady conditions?</p>
-      <p style="margin-top:8px;color:var(--purple);font-weight:600;">Connects to: Gustiness project</p>
-    </div>
-  </div>
 </div>
 
 <!-- ==================== CODE ==================== -->
@@ -727,7 +695,7 @@ let suppressWrite = { checks: false, code: false, data: false };
 
 document.getElementById('update-date').textContent = 'Updated ' + new Date().toISOString().slice(0,10);
 
-const ALL_VIEWS = ['history','meetings','directions','code','data','reference'];
+const ALL_VIEWS = ['history','meetings','code','data','reference'];
 
 // Nav
 document.getElementById('nav').addEventListener('click', e => {
